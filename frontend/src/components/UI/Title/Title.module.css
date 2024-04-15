@@ -1,0 +1,15 @@
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  min-height: 100px;
+  color: white;
+  font-size: 36px;
+  font-weight: 400;
+  background-color: #4e5263;
+  border-radius: 50px;
+
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.55);
+}
