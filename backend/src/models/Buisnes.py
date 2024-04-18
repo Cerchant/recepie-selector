@@ -1,9 +1,10 @@
 from sqlalchemy import String, ForeignKey
 from typing import Optional, List
-from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped, relationship
+from sqlalchemy.orm import mapped_column, Mapped, relationship
+from .Base import Base
 
-class Base(DeclarativeBase):
-    pass
+
+# TODO: ?? add relationships for user Recipe history
 
 class KBJU(Base):
     __tablename__ = "kbju"

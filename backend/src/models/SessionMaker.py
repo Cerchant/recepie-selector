@@ -1,13 +1,18 @@
 from sqlalchemy.orm import sessionmaker
-from src.models.Buisnes import Base
+from .Base import Base
 from sqlalchemy import create_engine
+from backend.src.settings import settings
 
+# dont ask why
+from .Buisnes import *
+from .User import *
 
 engine = create_engine(
-    'sqlite:///./database.db',
+    settings.database_url,
     connect_args={'check_same_thread': False},
-    echo=True
+    # echo=True
 )
+
 Base.metadata.create_all(engine)
 
 Session = sessionmaker(
