@@ -9,7 +9,7 @@ from ..models.authDTO import UserDTO, Token, UserCreate
 from ..models.SessionMaker import get_session, Session
 from ..settings import settings
 from ..exceptions import Exceptions
-from ..models.User import User as ModelUser, TokenBlacklist
+from ..models.User import User as ModelUser
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/auth/sing-in')
 regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'

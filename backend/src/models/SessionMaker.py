@@ -3,8 +3,7 @@ from .Base import Base
 from sqlalchemy import create_engine
 from backend.src.settings import settings
 
-# dont ask why
-from .Buisnes import *
+from .Buisness import *
 from .User import *
 
 engine = create_engine(

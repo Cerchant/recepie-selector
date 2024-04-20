@@ -1,5 +1,11 @@
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import mapped_column, Mapped, relationship
+from typing import Optional
 from .Base import Base
 import sqlalchemy as sa
+
+from .Buisness import AdditionalUserData
+
 
 class User(Base):
     __tablename__ = 'users'
@@ -9,9 +15,4 @@ class User(Base):
     username = sa.Column(sa.Text, unique=True)
     password_hash = sa.Column(sa.Text)
     is_super = sa.Column(sa.Boolean, default=0)
-
-class TokenBlacklist(Base):
-    __tablename__ = 'blacklist_tokens'
-
-    id = sa.Column(sa.Integer, primary_key=True)
-    blacklist_token = sa.Column(sa.Text)
+    additionalUserDataID: Mapped[Optional[int]] = mapped_column(ForeignKey("additional_user_data.id"))
