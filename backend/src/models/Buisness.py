@@ -1,11 +1,17 @@
-from sqlalchemy import String, ForeignKey
+from sqlalchemy import String, ForeignKey, Column
 from typing import Optional, List
 from sqlalchemy.orm import mapped_column, Mapped, relationship
 from .Base import Base
-
+from sqlalchemy import Table
 
 # TODO: ?? add relationships for user Recipe history
 
+product_recipe = Table(
+    "product_recipe",
+    Base.metadata,
+    Column("recipe", ForeignKey("recipe.id")),
+    Column("product", ForeignKey("product.id")),
+)
 class KBJU(Base):
     __tablename__ = "kbju"
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -20,10 +26,9 @@ class Product(Base):
     __tablename__ = "product"
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(30))
-    mass: Mapped[Optional[int]]
-    recipe_id: Mapped[int] = mapped_column(ForeignKey("recipe.id"))
-    recipe_for_product: Mapped["Recipe"] = relationship(back_populates="products")
-
+    recipes: Mapped[List["Recipe"]] = relationship(
+        secondary=product_recipe, back_populates="products"
+    )
 
 class Step(Base):
     __tablename__ = "step"
@@ -37,9 +42,12 @@ class Recipe(Base):
     __tablename__ = "recipe"
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(30))
-    products: Mapped[List["Product"]] = relationship(back_populates = "recipe_for_product", cascade = "all, delete-orphan")
-    step: Mapped[List["Step"]] = relationship(back_populates = "recipe_for_step", cascade = "all, delete-orphan")
-    kbju: Mapped["KBJU"] = relationship(back_populates="recipe_for_kbju")
+    text: Mapped[str] = mapped_column(String(64000))
+    products: Mapped[List["Product"]] = relationship(
+        secondary=product_recipe, back_populates="recipes"
+    )
+    step: Mapped[Optional[List["Step"]]] = relationship(back_populates = "recipe_for_step", cascade = "all, delete-orphan")
+    kbju: Mapped[Optional["KBJU"]] = relationship(back_populates="recipe_for_kbju")
 
 
 class IntolerableProduct(Base):

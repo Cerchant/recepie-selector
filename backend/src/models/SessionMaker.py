@@ -1,10 +1,9 @@
-from sqlalchemy.orm import sessionmaker
-from .Base import Base
+from fastapi import Depends
 from sqlalchemy import create_engine
-from backend.src.settings import settings
-
 from .Buisness import *
 from .User import *
+from backend.src.settings import settings
+from sqlalchemy.orm import sessionmaker
 
 engine = create_engine(
     settings.database_url,
@@ -12,14 +11,13 @@ engine = create_engine(
     # echo=True
 )
 
-Base.metadata.create_all(engine)
-
 Session = sessionmaker(
     engine,
     autocommit=False,
     autoflush=False,
 )
 
+Base.metadata.create_all(engine)
 
 def get_session() -> Session:
     session = Session()

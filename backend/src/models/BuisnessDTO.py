@@ -14,4 +14,6 @@ class AdditionalUserDataDTO(BaseModel):
     weight: int
     intolerableProducts: list[IntolerableProductDTO]
 
-
+class QueryForRecipeDTO(BaseModel):
+    intolerable: bool = True
+    ProductsList: list[ProductDTO]
