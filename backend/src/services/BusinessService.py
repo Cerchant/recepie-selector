@@ -35,39 +35,54 @@ class BusinessService:
 
 
     def getProducts(self):
-        return self.session.query(Product).all()
+        return JSONResponse(content=jsonable_encoder(self.session.query(Product).all()))
 
     def getRecipes(self, queryForRecipeDTO: QueryForRecipeDTO, user: UserDTO):
         names = [o.name for o in queryForRecipeDTO.ProductsList]
         param = "\"" + "\", \"".join(names) + "\""
         sql = f"""
-SELECT * FROM recipe r1
-join product_recipe pr1 on 	pr1.recipe = r1.id
-join product p1 on 	p1.id = pr1.product
-WHERE
-	p1.name IN ({param})
-	and r1.id not in 
-(
-	select r.id as pn
-	FROM recipe r
-	join product_recipe pr on pr.recipe = r.id
-	join product p on p.id = pr.product
-	WHERE
-		p.name in 
-       (
-		SELECT 	ip2.name FROM users u
-		join additional_user_data aud on aud.id = u.additionalUserDataID
-		join intolerable_product ip2 on aud.id = ip2.additionalUserDataID
-		where u.username = "{user.username}"
-		and true = {queryForRecipeDTO.intolerable.__str__()}
-		)
-)
+	SELECT r1.id as rid, r1.name as rname, r1.text as rtext FROM recipe r1
+    join product_recipe pr1 on 	pr1.recipe = r1.id
+    join product p1 on 	p1.id = pr1.product
+    WHERE
+        p1.name IN ({param})
+        and r1.id not in 
+    (
+        select r.id as pn
+        FROM recipe r
+        join product_recipe pr on pr.recipe = r.id
+        join product p on p.id = pr.product
+        WHERE
+            p.name in 
+           (
+            SELECT 	ip2.name FROM users u
+            join additional_user_data aud on aud.id = u.additionalUserDataID
+            join intolerable_product ip2 on aud.id = ip2.additionalUserDataID
+            where u.username = "{user.username}"
+            and true = {queryForRecipeDTO.intolerable.__str__()}
+            )
+    )
         """
         result = self.session.execute(text(sql))
         final = []
+
+        itr = 0
         for row in result:
-            final.append(row._asdict())
-        return final
+
+            row = row._asdict()
+
+            if itr == 0:
+                row_past = row
+
+            if row.get("rid") != row_past.get("rid") or itr == 0:
+                final.append(row)
+                row_past = row
+                res = self.session.query(product_recipe).filter(product_recipe.columns.recipe == final[itr].get("rid")).all()
+                res = [i[1] for i in res]
+                final[itr] = {**final[itr], "productList": self.session.query(Product).filter(Product.id.in_(res)).all()}
+                itr-=-1
+
+        return JSONResponse(content=jsonable_encoder(final))
 
 
     def initBaseData(self):
@@ -108,3 +123,4 @@ WHERE
         recipes[0].products = [products[6], products[2], products[7], products[8], products[9], products[12], products[11], products[10]]
         recipes[1].products = [products[1], products[5], products[7], products[13], products[14], products[15]]
         self.session.commit()
+        return JSONResponse(content=jsonable_encoder(status.HTTP_201_CREATED))

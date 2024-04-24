@@ -28,5 +28,3 @@ def getRecipes(queryForRecipeDTO: QueryForRecipeDTO,
         user: UserDTO = Depends(get_current_user),
         service: BusinessService = Depends()):
     return service.getRecipes(queryForRecipeDTO, user)
-# TODO img provider?
-# TODO validation for set additionalUserData
