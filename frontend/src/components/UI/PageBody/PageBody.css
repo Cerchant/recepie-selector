@@ -1,0 +1,7 @@
+.page-body {
+  display: flex;
+  flex-direction: column;
+  background-color: #F5F5F5;
+  width: 70%;
+  float: left;
+}
