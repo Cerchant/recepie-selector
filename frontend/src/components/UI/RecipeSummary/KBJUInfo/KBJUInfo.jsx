@@ -2,7 +2,7 @@ import "./KBJUInfo.css";
 import KBJUTable from "./KBJUTable/KBJUTable";
 
 const KBJUInfo = (props) => {
-    return <div>
+    return <div className="kbju-info">
         <p>КБЖУ на 1 порцию</p>
         <KBJUTable 
             k={props.kbju.k.toFixed(2)} 

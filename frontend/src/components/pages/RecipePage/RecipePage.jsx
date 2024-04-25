@@ -6,7 +6,7 @@ import PageBody from "../../UI/PageBody/PageBody";
 
 import RecipeSummary from "../../UI/RecipeSummary/RecipeSummary";
 import RecipeInstruction from "./RecipeInstruction/RecipeInstruction";
-import CommitButton from "./CommitButton/CommitButton";
+import NarrowOrangeButton from "../../UI/Buttons/NarrowOrangeButton/NarrowOrangeButton";
 
 const RecipePage = (props) => {
   // recipe = GET('recipe/{props.id}')
@@ -48,6 +48,11 @@ const RecipePage = (props) => {
       },
     ]
   }
+
+  const commitRecipeHandler = (event) => {
+    alert("Currenty not implemented");
+  }
+
   return (
     <div className={`${styles.content} ${props.className}`}>
       <PageHeader className={styles["content__page-header"]} />
@@ -58,7 +63,7 @@ const RecipePage = (props) => {
             <h2>{recipe.recipeName}</h2>
             <RecipeSummary imageLink={recipe.imageLink} ingridients={recipe.ingridients} portionMass={recipe.portionMass} kbju={recipe.kbju}/>
             <RecipeInstruction instruction={recipe.instruction}/>
-            <CommitButton />
+            <NarrowOrangeButton text="Завершить" onClick={commitRecipeHandler}/>
           </PageBody>
         </div>
       </main>

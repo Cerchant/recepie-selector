@@ -1,7 +1,7 @@
 import "./MiddleColumn.css";
 
 const MiddleColumn = (props) => {
-    return <div>
+    return <div className="middle-column">
         <p>Список продуктов</p>
         <ul>
             {
