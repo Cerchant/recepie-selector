@@ -1,6 +1,6 @@
 from fastapi import Depends, status
 from fastapi.encoders import jsonable_encoder
-from sqlalchemy.sql import text
+from sqlalchemy.sql import text, select
 from starlette.responses import JSONResponse
 
 from ..models.BuisnessDTO import AdditionalUserDataDTO, QueryForRecipeDTO
@@ -35,12 +35,12 @@ class BusinessService:
 
 
     def getProducts(self):
-        return JSONResponse(content=jsonable_encoder(self.session.query(Product).all()))
+        return JSONResponse(content=jsonable_encoder({"productList": [i.name for i in self.session.query(Product).all()]}))
 
     def getRecipes(self, queryForRecipeDTO: QueryForRecipeDTO, user: UserDTO):
-        names = [o.name for o in queryForRecipeDTO.ProductsList]
+        names = [name for name in queryForRecipeDTO.ProductsList]
         param = "\"" + "\", \"".join(names) + "\""
-        sql = f"""
+        toGetRecipes = f"""
 	SELECT r1.id as rid, r1.name as rname, r1.text as rtext FROM recipe r1
     join product_recipe pr1 on 	pr1.recipe = r1.id
     join product p1 on 	p1.id = pr1.product
@@ -63,7 +63,7 @@ class BusinessService:
             )
     )
         """
-        result = self.session.execute(text(sql))
+        result = self.session.execute(text(toGetRecipes))
         final = []
 
         itr = 0
@@ -76,10 +76,17 @@ class BusinessService:
 
             if row.get("rid") != row_past.get("rid") or itr == 0:
                 final.append(row)
+                final[itr]["productList"] = list()
                 row_past = row
                 res = self.session.query(product_recipe).filter(product_recipe.columns.recipe == final[itr].get("rid")).all()
                 res = [i[1] for i in res]
-                final[itr] = {**final[itr], "productList": self.session.query(Product).filter(Product.id.in_(res)).all()}
+                res = "\"" + "\", \"".join(res.__str__()) + "\""
+                fin = final[itr].get("productList")
+                for p in self.session.execute(text(f"""
+                    SELECT p.name as pname FROM product p
+                    WHERE p.id IN ({res})
+                        """)):
+                    fin.append(p._asdict().get("pname"))
                 itr-=-1
 
         return JSONResponse(content=jsonable_encoder(final))

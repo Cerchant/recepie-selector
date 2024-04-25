@@ -1,9 +1,6 @@
 from pydantic import BaseModel
 class ProductDTO(BaseModel):
-    id: int
     name: str
-    mass: int
-    recipe_id: int
 
 class IntolerableProductDTO(BaseModel):
     name: str
@@ -16,4 +13,4 @@ class AdditionalUserDataDTO(BaseModel):
 
 class QueryForRecipeDTO(BaseModel):
     intolerable: bool = True
-    ProductsList: list[ProductDTO]
+    ProductsList: list[str]
