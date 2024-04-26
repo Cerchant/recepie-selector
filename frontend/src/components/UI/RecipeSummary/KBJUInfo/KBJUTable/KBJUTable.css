@@ -1,0 +1,14 @@
+.kbju-table {
+    border-collapse: collapse;
+    border-style: hidden;
+    
+}
+
+.kbju-table__head {
+    border: 1px solid black;
+    font-weight: normal;
+}
+
+.kbju-table__cell {
+    border: 1px solid black;
+}

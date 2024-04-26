@@ -1,0 +1,22 @@
+.page-footer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-height: 143px;
+  background-color: #c0d899;
+}
+
+.page-footer__container {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+  width: 100%;
+  max-width: 1440px;
+}
+
+.page-footer__logo {
+  display: flex;
+  align-items: center;
+}
