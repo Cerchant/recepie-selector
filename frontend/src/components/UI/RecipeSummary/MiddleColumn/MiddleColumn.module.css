@@ -1,0 +1,18 @@
+.middle-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.middle-column__list {
+  margin-bottom: 37px;
+  list-style: disc;
+}
+
+.middle-column__text,
+.middle-column__list-item {
+  margin-bottom: 6px;
+}
+
+.middle-column__list-item:last-child {
+  margin-bottom: 0;
+}

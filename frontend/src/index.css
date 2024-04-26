@@ -13,7 +13,7 @@ html {
   -webkit-text-size-adjust: 100%; /* 2 */
   height: 100%;
   width: 100%;
-  font-family: "Inter";
+  font-family: "Inter", sans-serif;
 }
 
 /* Sections
