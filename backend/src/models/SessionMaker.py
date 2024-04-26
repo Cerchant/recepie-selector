@@ -1,14 +1,15 @@
-from sqlalchemy.orm import sessionmaker
-from src.models.Buisnes import Base
+from fastapi import Depends
 from sqlalchemy import create_engine
-
+from .Buisness import *
+from .User import *
+from backend.src.settings import settings
+from sqlalchemy.orm import sessionmaker
 
 engine = create_engine(
-    'sqlite:///./database.db',
+    settings.database_url,
     connect_args={'check_same_thread': False},
-    echo=True
+    # echo=True
 )
-Base.metadata.create_all(engine)
 
 Session = sessionmaker(
     engine,
@@ -16,6 +17,7 @@ Session = sessionmaker(
     autoflush=False,
 )
 
+Base.metadata.create_all(engine)
 
 def get_session() -> Session:
     session = Session()
