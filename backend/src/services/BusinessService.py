@@ -3,12 +3,12 @@ from fastapi.encoders import jsonable_encoder
 from sqlalchemy.sql import text, select
 from starlette.responses import JSONResponse
 
-from ..models.BuisnessDTO import AdditionalUserDataDTO, QueryForRecipeDTO
-from ..models.SessionMaker import get_session, Session
-from ..models.User import User
-from ..models.authDTO import UserDTO
-from ..models.Buisness import AdditionalUserData, IntolerableProduct, Recipe, product_recipe
-from src.models.Buisness import Product
+from models.BuisnessDTO import AdditionalUserDataDTO, QueryForRecipeDTO
+from models.SessionMaker import get_session, Session
+from models.User import User
+from models.authDTO import UserDTO
+from models.Buisness import AdditionalUserData, IntolerableProduct, Recipe, product_recipe
+from models.Buisness import Product
 
 class BusinessService:
 

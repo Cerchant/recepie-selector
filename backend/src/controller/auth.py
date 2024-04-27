@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
-from ..models.authDTO import (
+from models.authDTO import (
     UserCreate,
     Token,
     UserDTO,
 )
-from ..services.auth import AuthService, get_current_user, get_current_user_token
+from services.auth import AuthService, get_current_user, get_current_user_token
 
 auth = APIRouter(
     prefix='/auth',

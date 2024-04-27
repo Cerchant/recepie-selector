@@ -1,9 +1,13 @@
 import uvicorn
-from backend.src.settings import settings
+from settings import settings
 
-uvicorn.run(
-    'src.app:app',
-    host=settings.server_host,
-    port=settings.server_port,
-    reload=True
-)
+def main():
+    uvicorn.run(
+        'app:app',
+        host=settings.server_host,
+        port=settings.server_port,
+        reload=True
+    )
+
+if __name__ == "__main__":
+    main()

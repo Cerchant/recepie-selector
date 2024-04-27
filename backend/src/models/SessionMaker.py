@@ -2,7 +2,7 @@ from fastapi import Depends
 from sqlalchemy import create_engine
 from .Buisness import *
 from .User import *
-from backend.src.settings import settings
+from settings import settings
 from sqlalchemy.orm import sessionmaker
 
 engine = create_engine(

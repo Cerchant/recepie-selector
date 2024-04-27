@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
 
-from src.models.BuisnessDTO import AdditionalUserDataDTO, QueryForRecipeDTO
-from src.models.authDTO import UserDTO
-from src.services.BusinessService import BusinessService
-from src.services.auth import get_current_user
+from models.BuisnessDTO import AdditionalUserDataDTO, QueryForRecipeDTO
+from models.authDTO import UserDTO
+from services.BusinessService import BusinessService
+from services.auth import get_current_user
 
 business = APIRouter(
     prefix='/business',
