@@ -1,0 +1,70 @@
+.check {
+  box-sizing: border-box;
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 24px;
+  color: black;
+  cursor: pointer;
+}
+
+.check--pt0 {
+  padding-top: 0;
+}
+
+.check__input {
+  position: absolute !important;
+  width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(100%) !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+.check__input:checked ~ .check__mark {
+  background-color: black;
+}
+
+.check__input:checked ~ .check__mark:after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 6px;
+  top: 1px;
+  width: 6px;
+  height: 12px;
+  border-bottom: 2px solid white;
+  border-right: 2px solid white;
+  transform: rotate(45deg);
+}
+
+.check__mark {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+
+.check__label {
+  margin-left: 39px;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 22px;
+}
+
+.check__label--s {
+  font-size: 16px;
+}
