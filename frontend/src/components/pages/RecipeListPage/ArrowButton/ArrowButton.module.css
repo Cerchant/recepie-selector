@@ -1,0 +1,101 @@
+.btn {
+  position: relative;
+  padding: 0;
+  height: 25px;
+  width: 80px;
+  background-color: transparent;
+  border: none;
+  transition: 0.5s;
+}
+
+.btn:hover.btn::after,
+.btn:hover.btn::before {
+  scale: 1.1;
+  background-color: #82a052;
+}
+
+.btn::after,
+.btn::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  width: 42px;
+  height: 2px;
+  background-color: black;
+  transition: 0.2s;
+}
+
+.btn::after {
+  left: -2px;
+  transform-origin: right;
+  transform: rotate(30deg);
+}
+
+.btn::before {
+  right: -2px;
+  transform-origin: left;
+  transform: rotate(-30deg);
+}
+
+.btn--active.btn::after {
+  top: -1px;
+  transform: rotate(-30deg);
+}
+.btn--active.btn::before {
+  top: -1px;
+  transform: rotate(30deg);
+}
+btn {
+  position: relative;
+  align-self: center;
+  padding: 0;
+  margin: 0;
+  margin-left: auto;
+  height: 25px;
+  width: 80px;
+  background-color: transparent;
+  border: none;
+  transition: 0.5s;
+}
+
+.btn:hover.btn::after,
+.btn:hover.btn::before {
+  scale: 1.1;
+  background-color: #82a052;
+}
+
+.btn::after,
+.btn::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  width: 42px;
+  height: 2px;
+  background-color: black;
+  transition: 0.2s;
+}
+
+.btn::after {
+  left: -2px;
+  transform-origin: right;
+  transform: rotate(30deg);
+}
+
+.btn::before {
+  right: -2px;
+  transform-origin: left;
+  transform: rotate(-30deg);
+}
+
+.btn--active.btn::after {
+  top: -1px;
+  transform: rotate(-30deg);
+  scale: 1.1;
+  background-color: #82a052;
+}
+.btn--active.btn::before {
+  top: -1px;
+  transform: rotate(30deg);
+  scale: 1.1;
+  background-color: #82a052;
+}
