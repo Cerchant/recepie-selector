@@ -1,9 +1,24 @@
-.content__title {
-  margin: 62px auto;
+.content {
+  height: 100%;
+  background-color: #f1ece0;
 }
 
-.content__recipe-title {
-  margin-bottom: 37px;
-  font-size: 40px;
-  font-weight: normal;
+.content__container {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 0 40px;
+  width: 100%;
+  max-width: 1440px;
+}
+
+.content__title {
+  margin: 0 auto;
+  margin-top: 63px;
+  max-height: 100px;
+}
+
+.content__page-footer {
+  justify-self: flex-end;
 }

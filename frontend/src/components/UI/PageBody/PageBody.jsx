@@ -1,12 +1,10 @@
-import styles from "./PageBody.module.css";
+// import styles from "./PageBody.module.css";
+import "./PageBody.css"
 
 const PageBody = (props) => {
-  const classes = props.className;
-  return (
-    <main className={styles["page-body"] + " " + classes}>
-      {props.children}
-    </main>
-  );
+  // const classes = "page-body" + props.className;
+  const classes = "page-body"
+  return <div className={classes}>{props.children}</div>
 };
 
 export default PageBody;
