@@ -1,0 +1,32 @@
+.form {
+  width: 100%;
+  margin-bottom: 60px;
+}
+
+.form__container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form__title {
+  margin-bottom: 10px;
+  font-weight: normal;
+  font-size: 20px;
+}
+
+.form__select {
+  flex: 1;
+  max-width: 500px;
+  min-width: 300px;
+}
+
+.form__submit {
+  margin-left: 20px;
+  max-width: 390px;
+  min-width: 200px;
+  max-height: 55px;
+}
+
+.form__ckeck {
+  margin-top: 20px;
+}

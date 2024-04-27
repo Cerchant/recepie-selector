@@ -1,0 +1,9 @@
+.btn {
+  padding: 0;
+  width: 100%;
+  min-height: 55px;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  transition: 0.2s;
+}

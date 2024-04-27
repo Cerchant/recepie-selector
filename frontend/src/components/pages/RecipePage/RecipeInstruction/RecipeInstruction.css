@@ -1,0 +1,7 @@
+.recipe-instruction {
+    display: flex;
+    flex-direction: column;
+    margin-top: 46px;
+    margin-bottom: 46px;
+    gap: 36px;
+}

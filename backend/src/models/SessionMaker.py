@@ -4,12 +4,16 @@ from .Buisness import *
 from .User import *
 from settings import settings
 from sqlalchemy.orm import sessionmaker
+from src.models.Buisnes import Base
+from sqlalchemy import create_engine
+
 
 engine = create_engine(
-    settings.database_url,
+    'sqlite:///./database.db',
     connect_args={'check_same_thread': False},
-    # echo=True
+    echo=True
 )
+Base.metadata.create_all(engine)
 
 Session = sessionmaker(
     engine,
@@ -17,9 +21,8 @@ Session = sessionmaker(
     autoflush=False,
 )
 
-Base.metadata.create_all(engine)
 
-def get_session() -> Session:
+def get_session():
     session = Session()
     try:
         yield session

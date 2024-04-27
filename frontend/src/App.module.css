@@ -1,0 +1,23 @@
+.app__body {
+  display: flex;
+  flex-direction: column;
+  padding-top: 143px;
+  height: 100vh;
+}
+
+.app__main {
+  margin-top: 63px;
+}
+
+.app__content-container {
+  box-sizing: border-box;
+  display: flex;
+  margin: 0 auto;
+  padding: 0 40px;
+  width: 100%;
+  max-width: 1440px;
+}
+
+.app__page-footer {
+  justify-self: flex-end;
+}
