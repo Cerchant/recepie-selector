@@ -1,8 +1,8 @@
-import "./Step.css";
+import styles from "./Step.module.css";
 import Images from "./Images/Images";
 
 const Step = (props) => {
-    return <div className="step">
+    return <div className={styles["step"]}>
         <h3>Шаг {props.stepNumber}</h3>
         <p>{props.text}</p>
         <Images images={props.images}/>
