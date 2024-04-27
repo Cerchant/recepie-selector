@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ArrowButton from "../ArrowButton/ArrowButton";
+import ArrowButton from "../../../UI/Buttons/ArrowButton/ArrowButton";
 import styles from "./RecipeCard.module.css";
 import Img from "../../../UI/Image/Img";
 import CardDescription from "./CardDescription/CardDescription";

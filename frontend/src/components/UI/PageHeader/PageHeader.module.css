@@ -7,6 +7,7 @@
   width: 100%;
   min-height: 143px;
   background-color: #c0d899;
+  z-index: 100;
 }
 
 .page-header__container {

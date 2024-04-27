@@ -4,46 +4,6 @@ import RecipeListPage from "./components/pages/RecipeListPage/RecipeListPage";
 import RecipePage from "./components/pages/RecipePage/RecipePage";
 
 function App() {
-  const recipe = {
-    id: 1,
-    recipeName: "Сырники",
-    imageLink:
-      "https://proprikol.ru/wp-content/uploads/2021/01/kartinki-syrniki-3.jpg",
-    ingridients: [
-      "творог",
-      "мука пшеничная",
-      "яйцо куриное",
-      "сахар",
-      "масло подсолнечное",
-    ],
-    portionMass: 285,
-    kbju: {
-      k: 654,
-      b: 38.4,
-      j: 13.2,
-      u: 96.4,
-    },
-    instruction: [
-      {
-        text: "Взбить 2 небольших яйца с сахаром.",
-        images: [],
-      },
-      {
-        text: "Растереть творог и добавить в яичную смесь.",
-        images: [],
-      },
-      {
-        text: "Вымесить плотное, но мягкое тесто, понемногу добавляя муку.",
-        images: [],
-      },
-      {
-        text: "Сформировать сырники и обжарить на сковороде по 4 минуты с каждой стороны при среднем огне.",
-        images: [
-          "https://proprikol.ru/wp-content/uploads/2021/01/kartinki-syrniki-3.jpg",
-        ],
-      },
-    ],
-  };
   const recipes = [
     {
       id: 1,

@@ -5,9 +5,8 @@ import PageFooter from "../../UI/PageFooter/PageFooter";
 import PageBody from "../../UI/PageBody/PageBody";
 import Container from "../../UI/Container/Container";
 import Content from "../../UI/Content/Content";
-import RecipeCard from "./RecipeCard/RecipeCard";
 import RecipeCardList from "./RecipeCardList/RecipeCardList";
-import NarrowOrangeButton from "../../UI/Buttons/NarrowOrangeButton/NarrowOrangeButton";
+import FindRecipesForm from "./FindRecipesForm/FindRecipesForm";
 
 const RecipeListPage = (props) => {
   const recipes = props.recipes;
@@ -21,7 +20,7 @@ const RecipeListPage = (props) => {
             Подбор рецептов
           </Title>
           <Content>
-            <h1>ВОТ ТУТ ДОЛЖНА БЫТЬ ФОРМА</h1>
+            <FindRecipesForm />
 
             <RecipeCardList
               startCookingHandler={props.startCookingHandler}
