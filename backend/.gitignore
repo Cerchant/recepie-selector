@@ -1,1 +1,4 @@
 /venv
+/src/__pycache__
+/src/controller/__pycache__
+/src/models/__pycache__
