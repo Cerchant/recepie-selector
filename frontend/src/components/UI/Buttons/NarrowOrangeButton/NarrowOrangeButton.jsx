@@ -1,9 +1,9 @@
-import "./NarrowOrangeButton.css";
+import styles from "./NarrowOrangeButton.module.css";
 
 const NarrowOrangeButton = (props) => {
   return (
     <button
-      className={"narrow-orange-button " + props.className}
+      className={styles["narrow-orange-button"] + " " + props.className}
       onClick={props.onClick}
     >
       {props.children}
