@@ -79,7 +79,10 @@ function App() {
         },
         {
           text: "Вымесить плотное, но мягкое тесто, понемногу добавляя муку.",
-          images: [],
+          images: [
+            "https://proprikol.ru/wp-content/uploads/2021/01/kartinki-syrniki-3.jpg",
+            "https://proprikol.ru/wp-content/uploads/2021/01/kartinki-syrniki-3.jpg",
+          ],
         },
         {
           text: "Сформировать сырники и обжарить на сковороде по 4 минуты с каждой стороны при среднем огне.",
