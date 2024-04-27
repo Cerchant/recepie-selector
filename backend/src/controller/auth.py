@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
-from src.models.authDTO import (
+from models.authDTO import (
     UserCreate,
     Token,
     UserDTO,
