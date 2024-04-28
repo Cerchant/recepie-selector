@@ -1,14 +1,8 @@
 .narrow-orange-button {
-  background-color: #f2aa55;
-  color: white;
-  width: 228px;
-  height: 55px;
-  border-radius: 10px;
-  border: none;
-  font-size: 20px;
-  transition: 0.2s;
-}
-
-.narrow-orange-button:hover {
-  background-color: #d67400;
+    background-color: #F2AA55;
+    color: white;
+    width: 228px;
+    height: 55px;
+    border-radius: 10px;
+    border: none;
 }
