@@ -3,3 +3,4 @@
 /controller/__pycache__
 /models/__pycache__
 /services/__pycache__
+database.sqlite3

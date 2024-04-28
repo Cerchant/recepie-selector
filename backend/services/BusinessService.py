@@ -35,6 +35,7 @@ class BusinessService:
 
 
     def getProducts(self):
+        print(self.session.query(Product).all())
         return JSONResponse(content=jsonable_encoder({"productList": [i.name for i in self.session.query(Product).all()]}))
 
     def getRecipes(self, queryForRecipeDTO: QueryForRecipeDTO, user: UserDTO):
@@ -79,8 +80,8 @@ class BusinessService:
                 final[itr]["productList"] = list()
                 row_past = row
                 res = self.session.query(product_recipe).filter(product_recipe.columns.recipe == final[itr].get("rid")).all()
-                res = [i[1] for i in res]
-                res = "\"" + "\", \"".join(res.__str__()) + "\""
+                res = [str(i[1]) for i in res]
+                res = "\"" + "\", \"".join(res) + "\""
                 fin = final[itr].get("productList")
                 for p in self.session.execute(text(f"""
                     SELECT p.name as pname FROM product p
