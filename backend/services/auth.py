@@ -5,11 +5,11 @@ from fastapi.security import OAuth2PasswordBearer
 from passlib.hash import bcrypt
 from jose import jwt, JWTError
 from pydantic import ValidationError
-from ..models.authDTO import UserDTO, Token, UserCreate
-from ..models.SessionMaker import get_session, Session
-from ..settings import settings
-from ..exceptions import Exceptions
-from ..models.User import User as ModelUser
+from models.authDTO import UserDTO, Token, UserCreate
+from models.SessionMaker import get_session, Session
+from settings import settings
+from exceptions import Exceptions
+from models.User import User as ModelUser
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/auth/sing-in')
 regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
@@ -74,7 +74,7 @@ class AuthService:
 
         return Token(access_token=token)
 
-    def __init__(self, session: Session = Depends(get_session)):
+    def __init__(self, session: Session = Depends(get_session)): # type: ignore
         self.session = session
 
     def change_password(self, user: UserDTO, old_password: str, new_password: str, repeat_new_password: str):

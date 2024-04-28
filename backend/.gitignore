@@ -1,0 +1,5 @@
+/venv
+/__pycache__
+/controller/__pycache__
+/models/__pycache__
+/services/__pycache__

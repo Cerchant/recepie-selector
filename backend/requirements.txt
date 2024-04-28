@@ -7,5 +7,4 @@ sqlalchemy
 python-jose
 passlib[bcrypt]
 python-multipart
---fastapi-mail
 bcrypt
