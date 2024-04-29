@@ -8,7 +8,7 @@ const Check = (props) => {
         className={styles.check__input}
         type="checkbox"
         name="agree"
-        required
+        required={props.required}
         onChange={props.onChange}
         checked={props.checked}
       />

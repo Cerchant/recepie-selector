@@ -7,9 +7,54 @@ import Container from "../../UI/Container/Container";
 import Content from "../../UI/Content/Content";
 import RecipeCardList from "./RecipeCardList/RecipeCardList";
 import FindRecipesForm from "./FindRecipesForm/FindRecipesForm";
+import { useState } from "react";
 
 const RecipeListPage = (props) => {
-  const recipes = props.recipes;
+  const [recipes, setRecipes] = useState([]);
+
+  const handleRecipes = (recipes) => {
+    const dto = recipes.map((model) => {
+      return {
+        id: model.rid,
+        recipeName: model.rname,
+        description: model.rtext,
+        imageLink:
+          "https://proprikol.ru/wp-content/uploads/2021/01/kartinki-syrniki-3.jpg",
+        ingridients: model.productList,
+        portionMass: 285,
+        kbju: {
+          k: 654,
+          b: 38.4,
+          j: 13.2,
+          u: 96.4,
+        },
+        instruction: [
+          {
+            text: "Взбить 2 небольших яйца с сахаром.",
+            images: [],
+          },
+          {
+            text: "Растереть творог и добавить в яичную смесь.",
+            images: [],
+          },
+          {
+            text: "Вымесить плотное, но мягкое тесто, понемногу добавляя муку.",
+            images: [],
+          },
+          {
+            text: "Сформировать сырники и обжарить на сковороде по 4 минуты с каждой стороны при среднем огне.",
+            images: [
+              "https://proprikol.ru/wp-content/uploads/2021/01/kartinki-syrniki-3.jpg",
+            ],
+          },
+        ],
+      };
+    });
+    console.log(dto);
+    setRecipes(dto);
+  };
+
+  //const recipes = props.recipes;
 
   return (
     <>
@@ -20,7 +65,7 @@ const RecipeListPage = (props) => {
             Подбор рецептов
           </Title>
           <Content>
-            <FindRecipesForm />
+            <FindRecipesForm handleRecipes={handleRecipes} />
 
             <RecipeCardList
               startCookingHandler={props.startCookingHandler}
