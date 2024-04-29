@@ -1,0 +1,12 @@
+.kbju-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.kbju-info--mb25 {
+  margin-bottom: 25px;
+}
+
+.kbju-info__title {
+  margin-bottom: 5px;
+}

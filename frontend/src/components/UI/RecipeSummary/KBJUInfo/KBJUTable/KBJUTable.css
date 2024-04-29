@@ -1,0 +1,19 @@
+.kbju-table {
+  border-collapse: collapse;
+  border-style: hidden;
+}
+
+.kbju-table__head {
+  padding: 10px 0;
+  width: 58px;
+  border: 1px solid black;
+  font-weight: normal;
+  text-align: center;
+}
+
+.kbju-table__cell {
+  padding: 10px 0;
+  width: 58px;
+  border: 1px solid black;
+  text-align: center;
+}
