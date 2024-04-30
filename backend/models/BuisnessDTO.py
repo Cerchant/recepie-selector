@@ -14,3 +14,8 @@ class AdditionalUserDataDTO(BaseModel):
 class QueryForRecipeDTO(BaseModel):
     intolerable: bool = True
     ProductsList: list[str]
+
+class ChangePasswordDTO(BaseModel):
+    old_password: str
+    new_password: str
+    repeat_new_password: str
