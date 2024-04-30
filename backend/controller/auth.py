@@ -1,5 +1,7 @@
 from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
+
+from models.BuisnessDTO import ChangePasswordDTO
 from models.authDTO import (
     UserCreate,
     Token,
@@ -35,6 +37,6 @@ def get_user(user: UserDTO = Depends(get_current_user)):
 #            service: AuthService = Depends()):
 #     return service.logout_user(token.access_token)
 @auth.put('/change-password')
-def change_password(old_password: str, new_password: str, repeat_new_password: str, user: UserDTO = Depends(get_current_user),
+def change_password(changePasswordDTO: ChangePasswordDTO, user: UserDTO = Depends(get_current_user),
                     service: AuthService = Depends()):
-    return service.change_password(user, old_password, new_password, repeat_new_password)
+    return service.change_password(user, changePasswordDTO.old_password, changePasswordDTO.new_password, changePasswordDTO.repeat_new_password)
