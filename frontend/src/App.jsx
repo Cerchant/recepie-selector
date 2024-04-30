@@ -2,6 +2,7 @@ import { useState } from "react";
 import styles from "./App.module.css";
 import RecipeListPage from "./components/pages/RecipeListPage/RecipeListPage";
 import RecipePage from "./components/pages/RecipePage/RecipePage";
+import ProfilePage from "./components/pages/ProfilePage/ProfilePage";
 
 function App() {
   const recipes = [
@@ -113,7 +114,8 @@ function App() {
 
   return (
     <>
-      {!cookingState.isCooking ? (
+      <ProfilePage />
+      {/* {!cookingState.isCooking ? (
         <RecipeListPage
           startCookingHandler={startCookingHandler}
           recipes={recipes}
@@ -123,7 +125,7 @@ function App() {
           commitRecipeHandler={commitRecipeHandler}
           recipe={cookingState.recipe}
         />
-      )}
+      )} */}
     </>
   );
 }

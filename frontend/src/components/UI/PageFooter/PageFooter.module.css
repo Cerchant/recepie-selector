@@ -1,9 +1,12 @@
 .page-footer {
+  flex: 1 0 auto;
   display: flex;
   justify-content: center;
   width: 100%;
-  min-height: 143px;
+  max-height: 70px;
+  min-height: 70px;
   background-color: #c0d899;
+  overflow: hidden;
 }
 
 .page-footer__container {
@@ -13,10 +16,18 @@
   align-items: center;
   padding: 0 40px;
   width: 100%;
-  max-width: 1440px;
 }
 
 .page-footer__logo {
+  position: relative;
   display: flex;
+  justify-content: flex-start;
   align-items: center;
+  width: 60px;
+  height: 60px;
+}
+
+.page-footer__logo-img {
+  position: absolute;
+  top: 2px;
 }

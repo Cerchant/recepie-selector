@@ -5,7 +5,7 @@
   display: flex;
   justify-content: center;
   width: 100%;
-  min-height: 143px;
+  height: 70px;
   background-color: #c0d899;
   z-index: 100;
 }
@@ -21,6 +21,23 @@
 }
 
 .page-header__logo {
+  position: relative;
   display: flex;
+  justify-content: flex-start;
   align-items: center;
+  width: 60px;
+  height: 60px;
+}
+.page-header__logo {
+  position: absolute;
+  top: 10px;
+}
+
+.page-header__user {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-left: auto;
+  width: 40px;
+  height: 40px;
 }

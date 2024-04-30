@@ -1,9 +1,10 @@
 .page-body {
+  box-sizing: border-box;
+  flex: 1 0 auto;
   display: flex;
   flex-direction: column;
-  padding-top: 143px;
-  padding-bottom: 207px;
+  padding-top: 70px;
+  padding-bottom: 70px;
   width: 100%;
-  min-height: 100%;
   background-color: #f1ece0;
 }
