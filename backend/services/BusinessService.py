@@ -3,7 +3,7 @@ from fastapi.encoders import jsonable_encoder
 from sqlalchemy.sql import text, select
 from starlette.responses import JSONResponse
 
-from models.BuisnessDTO import AdditionalUserDataDTO, QueryForRecipeDTO
+from models.BuisnessDTO import AdditionalUserDataDTO, QueryForRecipeDTO, ExceptIntolerable
 from models.SessionMaker import get_session, Session
 from models.User import User
 from models.authDTO import UserDTO
@@ -34,35 +34,18 @@ class BusinessService:
         return JSONResponse(content=jsonable_encoder(status.HTTP_201_CREATED))
 
 
-    def getProducts(self):
-        print(self.session.query(Product).all())
-        return JSONResponse(content=jsonable_encoder({"productList": [i.name for i in self.session.query(Product).all()]}))
+    def getProducts(self, exceptIntolerable: ExceptIntolerable, user: UserDTO):
+        intolerable = select(IntolerableProduct.name).where(IntolerableProduct.additionalUserDataID.in_(select(User.additionalUserDataID).where(User.id==user.id)))
+        return JSONResponse(content=jsonable_encoder({"productList": [i.name for i in self.session.query(Product).filter(Product.name.not_in(intolerable)).all()]}))
 
-    def getRecipes(self, queryForRecipeDTO: QueryForRecipeDTO, user: UserDTO):
+    def getRecipes(self, queryForRecipeDTO: QueryForRecipeDTO):
         names = [name for name in queryForRecipeDTO.ProductsList]
         param = "\"" + "\", \"".join(names) + "\""
         toGetRecipes = f"""
-	SELECT r1.id as rid, r1.name as rname, r1.text as rtext FROM recipe r1
-    join product_recipe pr1 on 	pr1.recipe = r1.id
-    join product p1 on 	p1.id = pr1.product
-    WHERE
-        p1.name IN ({param})
-        and r1.id not in 
-    (
-        select r.id as pn
-        FROM recipe r
-        join product_recipe pr on pr.recipe = r.id
-        join product p on p.id = pr.product
-        WHERE
-            p.name in 
-           (
-            SELECT 	ip2.name FROM users u
-            join additional_user_data aud on aud.id = u.additionalUserDataID
-            join intolerable_product ip2 on aud.id = ip2.additionalUserDataID
-            where u.username = "{user.username}"
-            and true = {queryForRecipeDTO.intolerable.__str__()}
-            )
-    )
+            SELECT DISTINCT r1.id as rid, r1.name as rname, r1.text as rtext FROM recipe r1
+            join product_recipe pr1 on 	pr1.recipe = r1.id
+            join product p1 on 	p1.id = pr1.product
+            WHERE p1.name IN ({param})
         """
         result = self.session.execute(text(toGetRecipes))
         final = []
@@ -79,16 +62,21 @@ class BusinessService:
                 final.append(row)
                 final[itr]["productList"] = list()
                 row_past = row
-                res = self.session.query(product_recipe).filter(product_recipe.columns.recipe == final[itr].get("rid")).all()
-                res = [str(i[1]) for i in res]
-                res = "\"" + "\", \"".join(res) + "\""
                 fin = final[itr].get("productList")
                 for p in self.session.execute(text(f"""
-                    SELECT p.name as pname FROM product p
-                    WHERE p.id IN ({res})
+                    SELECT p2.name as pname FROM product p2 
+                        WHERE p2.id IN (Select pr.product FROM product_recipe pr
+                        WHERE pr.recipe = {final[itr].get("rid")}
+                    )
                         """)):
+                    if not str(p._asdict().get("pname")) in set(queryForRecipeDTO.ProductsList):
+                        try:
+                            final.pop(itr)
+                            itr-=1
+                        except IndexError:
+                            pass
                     fin.append(p._asdict().get("pname"))
-                itr-=-1
+            itr-=-1
 
         return JSONResponse(content=jsonable_encoder(final))
 
