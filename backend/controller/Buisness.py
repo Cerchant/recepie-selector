@@ -10,10 +10,15 @@ business = APIRouter(
 )
 
 @business.post('/start')
-def additionalUserData(additionalUserDataDTO: AdditionalUserDataDTO,
+def setAdditionalUserData(additionalUserDataDTO: AdditionalUserDataDTO,
                        user: UserDTO = Depends(get_current_user),
                        service: BusinessService = Depends()):
     return service.setAdditionalUserData(additionalUserDataDTO, user)
+
+@business.get('/data')
+def getAdditionalUserData(user: UserDTO = Depends(get_current_user),
+                       service: BusinessService = Depends()):
+    return service.getAdditionalUserData(user)
 
 @business.post('/init')
 def init(service: BusinessService = Depends()):

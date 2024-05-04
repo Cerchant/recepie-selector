@@ -41,6 +41,13 @@ class Exceptions:
             'WWW-Change-password': 'Password'
         },
     )
+    change_password_same = HTTPException(
+        status_code=status.HTTP_412_PRECONDITION_FAILED,
+        detail='Please enter new password correctly.',
+        headers={
+            'WWW-Change-password': 'Password_repeat_same'
+        },
+    )
 
     validate_token = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,

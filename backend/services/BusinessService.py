@@ -15,6 +15,21 @@ class BusinessService:
     def __init__(self, session: Session = Depends(get_session)): # type: ignore
         self.session = session
 
+    def getAdditionalUserData(self, user: UserDTO):
+        products = [p._asdict() for p in self.session.execute(text(f"""
+        Select ip.name FROM intolerable_product ip  
+        WHERE ip.additionalUserDataID IN (
+            SELECT u.additionalUserDataID FROM users u 
+            WHERE u.id = {user.id}
+        )
+        """))]
+        data = self.session.query(AdditionalUserData).filter(AdditionalUserData.id.in_(select(User.additionalUserDataID).where(User.id==user.id))).first()
+        return AdditionalUserDataDTO(
+            age = data.age,
+            height = data.height,
+            weight = data.weight,
+            intolerableProducts = products)
+
     def setAdditionalUserData(self, additionalUserDataDTO: AdditionalUserDataDTO, user: UserDTO):
         additionalUserData = AdditionalUserData(age=additionalUserDataDTO.age, weight=additionalUserDataDTO.weight, height=additionalUserDataDTO.height)
         self.session.add(additionalUserData)
@@ -33,10 +48,10 @@ class BusinessService:
         self.session.commit()
         return JSONResponse(content=jsonable_encoder(status.HTTP_201_CREATED))
 
-
     def getProducts(self, exceptIntolerable: ExceptIntolerable, user: UserDTO):
         intolerable = select(IntolerableProduct.name).where(IntolerableProduct.additionalUserDataID.in_(select(User.additionalUserDataID).where(User.id==user.id)))
         return JSONResponse(content=jsonable_encoder({"productList": [i.name for i in self.session.query(Product).filter(Product.name.not_in(intolerable)).all()]}))
+
 
     def getRecipes(self, queryForRecipeDTO: QueryForRecipeDTO):
         names = [name for name in queryForRecipeDTO.ProductsList]
@@ -79,7 +94,6 @@ class BusinessService:
             itr-=-1
 
         return JSONResponse(content=jsonable_encoder(final))
-
 
     def initBaseData(self):
         products = [
