@@ -3,7 +3,8 @@ from fastapi.encoders import jsonable_encoder
 from sqlalchemy.sql import text, select
 from starlette.responses import JSONResponse
 
-from models.BuisnessDTO import AdditionalUserDataDTO, QueryForRecipeDTO, ExceptIntolerable
+from models.Buisness import KBJU
+from models.BuisnessDTO import AdditionalUserDataDTO, QueryForRecipeDTO, ExceptIntolerable, KbjuDTO
 from models.SessionMaker import get_session, Session
 from models.User import User
 from models.authDTO import UserDTO
@@ -88,9 +89,16 @@ class BusinessService:
                         try:
                             final.pop(itr)
                             itr-=1
+                            break
                         except IndexError:
                             pass
                     fin.append(p._asdict().get("pname"))
+                try:
+                    if len(final[-1]) < 5:
+                        crudeKbju = self.session.query(KBJU).filter(KBJU.recipe_id == final[itr].get("rid")).first()
+                        final[itr]["kbju"] = KbjuDTO(k=crudeKbju.k, b=crudeKbju.b, j=crudeKbju.j, u=crudeKbju.u)
+                except IndexError:
+                    pass
             itr-=-1
 
         return JSONResponse(content=jsonable_encoder(final))
@@ -131,6 +139,8 @@ class BusinessService:
 
 
         recipes[0].products = [products[6], products[2], products[7], products[8], products[9], products[12], products[11], products[10]]
+        recipes[0].kbju = KBJU(k=123, b=43.2, j=45.6, u=32.2)
         recipes[1].products = [products[1], products[5], products[7], products[13], products[14], products[15]]
+        recipes[1].kbju = KBJU(k=350, b=12.1, j=32.2, u=51.5)
         self.session.commit()
         return JSONResponse(content=jsonable_encoder(status.HTTP_201_CREATED))

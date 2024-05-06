@@ -14,13 +14,12 @@ product_recipe = Table(
 )
 class KBJU(Base):
     __tablename__ = "kbju"
-    id: Mapped[int] = mapped_column(primary_key=True)
-    recipe_id = mapped_column(ForeignKey("recipe.id"))
+    recipe_id = mapped_column(ForeignKey("recipe.id"), primary_key=True)
     recipe_for_kbju: Mapped["Recipe"] = relationship(back_populates="kbju")
-    cal: Mapped[Optional[int]]
-    protein: Mapped[Optional[int]]
-    fat: Mapped[Optional[int]]
-    carb: Mapped[Optional[int]]
+    k: Mapped[Optional[int]]
+    b: Mapped[Optional[int]]
+    j: Mapped[Optional[int]]
+    u: Mapped[Optional[int]]
 
 class Product(Base):
     __tablename__ = "product"
