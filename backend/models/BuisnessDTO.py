@@ -16,3 +16,9 @@ class QueryForRecipeDTO(BaseModel):
 
 class ExceptIntolerable(BaseModel):
     intolerable: bool = True
+
+class KbjuDTO(BaseModel):
+    k: int
+    b: float
+    j: float
+    u: float
