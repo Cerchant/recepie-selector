@@ -1,0 +1,87 @@
+.form {
+  display: grid;
+  grid-template-areas: "avatar fields";
+  gap: 20px;
+  width: 100%;
+}
+
+@media screen and (width < 811px) {
+  .form {
+    grid-template-areas:
+      "avatar"
+      "fields";
+    gap: 40px;
+  }
+  .form__submit {
+    margin-top: 25px;
+  }
+}
+
+.form__wrapper {
+  grid-area: fields;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form__fields {
+  position: relative;
+  padding-top: 5px;
+  max-width: 400px;
+  margin-bottom: 25px;
+}
+
+.form__avatar {
+  grid-area: avatar;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form__photo {
+  margin-bottom: 32px;
+}
+
+.form__change-photo {
+  max-width: 400px;
+}
+
+.form__field {
+  width: 100%;
+  min-width: 80px !important;
+  margin-bottom: 25px !important;
+}
+
+.form__field--w100 {
+  margin-right: 10px !important;
+  max-width: 100px;
+}
+
+.form__field--w100:last-child {
+  margin-right: 0 !important;
+}
+
+.form__field--w100 input {
+  text-align: center;
+}
+
+.form__edit {
+  position: absolute;
+  right: -35px;
+  top: 100px;
+}
+
+.form__edit--active {
+  color: #f2aa55;
+}
+
+.form__group {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.form__submit {
+  max-width: 400px;
+}

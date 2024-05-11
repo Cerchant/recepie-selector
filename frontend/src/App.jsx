@@ -2,6 +2,7 @@ import { useState } from "react";
 import styles from "./App.module.css";
 import RecipeListPage from "./components/pages/RecipeListPage/RecipeListPage";
 import RecipePage from "./components/pages/RecipePage/RecipePage";
+import ProfilePage from "./components/pages/ProfilePage/ProfilePage";
 
 function App() {
   const recipes = [
@@ -111,9 +112,15 @@ function App() {
     }));
   };
 
+  localStorage.setItem(
+    "token",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTQ0ODIzMDksIm5iZiI6MTcxNDQ4MjMwOSwiZXhwIjoxNzE0NDg1OTA5LCJzdWIiOiIyIiwidXNlciI6eyJlbWFpbCI6InRlc3R0ZXN0QG1haWwucnUiLCJ1c2VybmFtZSI6IjEyMzQ1Njc4IiwiaWQiOjJ9fQ.ZmiBdfpDqc7ZpYu0zSnus_EFzNysGb_INeLxaEI1q00"
+  );
+
   return (
     <>
-      {!cookingState.isCooking ? (
+      <ProfilePage />
+      {/* {!cookingState.isCooking ? (
         <RecipeListPage
           startCookingHandler={startCookingHandler}
           recipes={recipes}
@@ -123,7 +130,7 @@ function App() {
           commitRecipeHandler={commitRecipeHandler}
           recipe={cookingState.recipe}
         />
-      )}
+      )} */}
     </>
   );
 }

@@ -1,7 +1,6 @@
 import axios from "axios";
-import SubmitButton from "../../../UI/Buttons/SubmitButton/SubmitButton";
+import Button from "../../../UI/Buttons/Button/Button";
 import Check from "../../../UI/Check/Check";
-import Select from "../../../UI/Select/Select";
 import styles from "./FindRecipesForm.module.css";
 import { useEffect, useState } from "react";
 import { Autocomplete, TextField } from "@mui/material";
@@ -54,8 +53,9 @@ const FindRecipesForm = (props) => {
     e.preventDefault();
 
     console.log(inputValue);
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTQzNjM1NDYsIm5iZiI6MTcxNDM2MzU0NiwiZXhwIjoxNzE0MzY3MTQ2LCJzdWIiOiIxIiwidXNlciI6eyJlbWFpbCI6InN0cmluZ0BtYWlsLnJ1IiwidXNlcm5hbWUiOiJzdHJpbmciLCJpZCI6MX19.hjn3O1epbtG8SmkhSto0Oo4It4HzgYo8VtKrCrRZpu0";
+
+    const token = localStorage.getItem("token");
+
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };
@@ -100,9 +100,9 @@ const FindRecipesForm = (props) => {
             )}
           />
         </label>
-        <SubmitButton className={styles.form__submit} color="#C5C484">
+        <Button className={styles.form__submit} color="#C5C484" type="submit">
           Найти рецепты
-        </SubmitButton>
+        </Button>
       </div>
       <Check
         onChange={changeCheckHandler}
