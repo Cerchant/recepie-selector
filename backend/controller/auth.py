@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 
-from models.BuisnessDTO import ChangePasswordDTO
+from models.authDTO import ChangePasswordDTO
 from models.authDTO import (
     UserCreate,
     Token,

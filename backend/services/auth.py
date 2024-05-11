@@ -89,7 +89,7 @@ class AuthService:
             raise Exceptions.change_password
 
         if old_password == new_password:
-            raise Exceptions.change_password
+            raise Exceptions.change_password_same
 
         if not self.verify_password(old_password, get_user.password_hash):
             raise Exceptions.change_password
