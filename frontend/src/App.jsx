@@ -112,6 +112,11 @@ function App() {
     }));
   };
 
+  localStorage.setItem(
+    "token",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTQ0ODIzMDksIm5iZiI6MTcxNDQ4MjMwOSwiZXhwIjoxNzE0NDg1OTA5LCJzdWIiOiIyIiwidXNlciI6eyJlbWFpbCI6InRlc3R0ZXN0QG1haWwucnUiLCJ1c2VybmFtZSI6IjEyMzQ1Njc4IiwiaWQiOjJ9fQ.ZmiBdfpDqc7ZpYu0zSnus_EFzNysGb_INeLxaEI1q00"
+  );
+
   return (
     <>
       <ProfilePage />

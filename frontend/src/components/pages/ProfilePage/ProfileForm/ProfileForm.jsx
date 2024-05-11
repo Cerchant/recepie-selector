@@ -15,11 +15,14 @@ const validateEmail = (email) => {
 };
 
 const ProfileForm = (props) => {
+  const token = localStorage.getItem("token");
   const user = props.user;
 
   const emailError = "Некорректный email";
+  const oldPasswordError = "Неверный пароль";
   const passwordError = "Пароль должен быть длинее 8 символов";
   const confirmPasswordError = "Пароли должны совпадать";
+  const samePasswordsError = "Новый пароль должен отличаться от старого";
 
   const [isEdit, setIsEdit] = useState(false);
 
@@ -27,10 +30,12 @@ const ProfileForm = (props) => {
   const [emailIsValid, setEmailIsValid] = useState(true);
 
   const [passwordInput, setPasswordInput] = useState();
+  const [passwordIsValid, setPasswordIsValid] = useState(true);
   const [newPasswordInput, setNewPasswordInput] = useState("");
   const [newPasswordIsValid, setNewPasswordIsValid] = useState(true);
   const [confirmPasswordInput, setConfirmPasswordInput] = useState("");
   const [confirmPasswordIsValid, setConfirmPasswordIsValid] = useState(true);
+  const [isSamePasswords, setIsSamePasswords] = useState(false);
 
   const [ageInput, setAgeInput] = useState(user.age);
   const [ageIsValid, setAgeIsValid] = useState(true);
@@ -102,6 +107,7 @@ const ProfileForm = (props) => {
 
   const passwordInputChangeHandler = (e) => {
     setPasswordInput(e.target.value);
+    setPasswordIsValid(true);
   };
 
   const ageInputChangeHandler = (e) => {
@@ -122,6 +128,8 @@ const ProfileForm = (props) => {
   const newPasswordInputChangeHandler = (e) => {
     setNewPasswordInput(e.target.value);
     setNewPasswordIsValid(e.target.value.length >= 8);
+
+    setIsSamePasswords(false);
   };
 
   const confirmPasswordInputChangeHandler = (e) => {
@@ -133,8 +141,49 @@ const ProfileForm = (props) => {
     setIsEdit((prev) => !prev);
   };
 
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    if (isEdit) {
+      try {
+        const { changePasswordData } = await axios.put(
+          "http://127.0.0.1:8000/auth/change-password",
+          {
+            old_password: passwordInput,
+            new_password: newPasswordInput,
+            repeat_new_password: confirmPasswordInput,
+          },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        setIsEdit(false);
+      } catch (ex) {
+        const { response } = ex;
+        if (response?.status === 412) {
+          setIsSamePasswords(true);
+        } else if (response?.status === 413) {
+          ////////////////////////////////////////// ВОТ ТУТ НАДО ПОМЕНЯТЬ СТАТУС ОШИБКИ ПРИ НЕПРАВИЛЬНОМ СТАРОМ ПАРОЛЕ
+          setPasswordIsValid(false);
+        }
+        setPasswordIsValid;
+      }
+    }
+    const { changeInfData } = await axios.post(
+      "http://127.0.0.1:8000/business/start",
+
+      {
+        age: ageInput,
+        height: heightInput,
+        weight: weightInput,
+        intolerableProducts: selectedProducts.map((product) => ({
+          name: product.title,
+        })),
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+  };
+
   return (
-    <form className={styles.form}>
+    <form className={styles.form} onSubmit={submitHandler}>
       <div className={styles.form__avatar}>
         <Img
           className={styles.form__photo}
@@ -179,6 +228,8 @@ const ProfileForm = (props) => {
             type="password"
             disabled={!isEdit}
             required={isEdit}
+            error={isEdit && !passwordIsValid}
+            helperText={isEdit && !passwordIsValid && oldPasswordError}
           />
 
           <EditButton
@@ -193,14 +244,16 @@ const ProfileForm = (props) => {
               <TextField
                 className={styles.form__field}
                 sx={muiStyles}
-                error={!newPasswordIsValid}
+                error={!newPasswordIsValid || isSamePasswords}
                 label="Новый пароль"
                 defaultValue={newPasswordInput}
                 value={newPasswordInput}
                 onChange={newPasswordInputChangeHandler}
-                helperText={!newPasswordIsValid && passwordError}
+                helperText={
+                  (!newPasswordIsValid && passwordError) ||
+                  (isSamePasswords && samePasswordsError)
+                }
                 type="password"
-                disabled={!isEdit}
                 required
               />
               <TextField
@@ -213,7 +266,6 @@ const ProfileForm = (props) => {
                 onChange={confirmPasswordInputChangeHandler}
                 helperText={!confirmPasswordIsValid && confirmPasswordError}
                 type="password"
-                disabled={!isEdit}
                 required
               />
             </>

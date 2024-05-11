@@ -53,8 +53,9 @@ const FindRecipesForm = (props) => {
     e.preventDefault();
 
     console.log(inputValue);
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTQ0NzU3NDEsIm5iZiI6MTcxNDQ3NTc0MSwiZXhwIjoxNzE0NDc5MzQxLCJzdWIiOiIxIiwidXNlciI6eyJlbWFpbCI6InN0cmluZ0BtYWlsLnJ1IiwidXNlcm5hbWUiOiJzdHJpbmciLCJpZCI6MX19.7Rcy-pEokpfIDqUd2XXEooGyzk_zhl1Otbn-nqZENFI";
+
+    const token = localStorage.getItem("token");
+
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };
