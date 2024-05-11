@@ -56,3 +56,8 @@ class Exceptions:
             'WWW-Validation': 'Token'
         },
     )
+
+    resource_not_found = HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail='resource not found',
+    )
