@@ -1,0 +1,59 @@
+.authentication-page {
+    display: flex;
+    flex-direction: column;
+    padding-top: 70px;
+    padding-bottom: 70px;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    
+    background-color: #f1ece0;
+}
+
+.authentication-page__logo {
+    width: 60px;
+    height: 60px;
+    align-self: center;
+}
+
+.authentication-page__content {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    width: 60%;
+    min-width: 400pt;
+}
+
+.authentication-page__tabs {
+    display: flex;
+    width: 100%;
+    height: 50pt;
+}
+
+.authentication-page__tab-button {
+    color: #4E5263;
+    width: 50%;
+    height: 100%;
+    border: none;
+    font-size: 24px;
+    background-color: #f1ece0;
+}
+
+
+.authentication-page__tab-button__active {
+    color: #4E5263;
+    width: 50%;
+    height: 100%;
+    border: none;
+    font-size: 24px;
+    background-color: #FFFFFF;
+}
+
+.authentication-page__agreement-text {
+    color: #9D9D9D;
+    font-size: 14px;
+    align-self: center;
+    width: 90%;
+    margin-bottom: 24pt;
+    text-align: center;
+}
