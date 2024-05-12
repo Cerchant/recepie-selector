@@ -6,12 +6,26 @@ import { useEffect, useState } from "react";
 import { Autocomplete, TextField } from "@mui/material";
 
 const FindRecipesForm = (props) => {
+  const token = localStorage.getItem("token");
   const [options, setOptions] = useState([]);
 
+  const [value, setValue] = useState();
+  const [inputValue, setInputValue] = useState("");
+  const [isChecked, setIsChecked] = useState(true);
+
   useEffect(() => {
+    console.log(isChecked);
     async function fetchOptions() {
       const fetchedOptions = (
-        await axios.get("http://127.0.0.1:8000/business/products")
+        await axios.put(
+          "http://127.0.0.1:8000/business/products",
+          {
+            intolerable: isChecked,
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
       ).data.productList;
 
       setOptions(() => {
@@ -25,7 +39,7 @@ const FindRecipesForm = (props) => {
       });
     }
     fetchOptions();
-  }, []);
+  }, [isChecked]);
 
   // const options = [
   //   { title: "рыба" },
@@ -33,10 +47,6 @@ const FindRecipesForm = (props) => {
   //   { title: "хлеб" },
   //   { title: "курица" },
   // ];
-
-  const [value, setValue] = useState();
-  const [inputValue, setInputValue] = useState("");
-  const [isChecked, setIsChecked] = useState(true);
 
   const changeValueHandler = (_, value) => {
     setValue(value);
@@ -52,17 +62,13 @@ const FindRecipesForm = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(inputValue);
-
-    const token = localStorage.getItem("token");
-
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };
     const body = {
-      intolerable: isChecked,
       ProductsList: value.map((v) => v.title),
     };
+    console.log(body);
     const fetchedRecipes = (
       await axios.post("http://127.0.0.1:8000/business/recipes", body, config)
     ).data;

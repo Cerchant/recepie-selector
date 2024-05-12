@@ -24,7 +24,7 @@ def getAdditionalUserData(user: UserDTO = Depends(get_current_user),
 def init(service: BusinessService = Depends()):
     return service.initBaseData()
 
-@business.get('/products')
+@business.put('/products')
 def getProducts(exceptIntolerable: ExceptIntolerable,
                 user: UserDTO = Depends(get_current_user),
                 service: BusinessService = Depends()):

@@ -48,8 +48,8 @@ const ProfileForm = (props) => {
 
   const [options, setOptions] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState(
-    user.intolerantProducts.map((product) => ({
-      title: product,
+    user.intolerableProducts.map((product) => ({
+      title: product.name,
     }))
   );
   const [inputValue, setInputValue] = useState("");
@@ -57,18 +57,16 @@ const ProfileForm = (props) => {
   useEffect(() => {
     async function fetchOptions() {
       const fetchedOptions = (
-        await axios.get("http://127.0.0.1:8000/business/products")
+        await axios.put(
+          "http://127.0.0.1:8000/business/products",
+          { intolerable: false },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
       ).data.productList;
-
-      setOptions(() => {
-        const data = [];
-        for (let i = 0; i < fetchedOptions.length; i++) {
-          data.push({
-            title: fetchedOptions[i],
-          });
-        }
-        return data;
-      });
+      console.log(fetchedOptions);
+      setOptions(fetchedOptions.map((option) => ({ title: option })));
     }
     fetchOptions();
   }, []);
@@ -145,7 +143,7 @@ const ProfileForm = (props) => {
     e.preventDefault();
     if (isEdit) {
       try {
-        const { changePasswordData } = await axios.put(
+        const { data } = await axios.put(
           "http://127.0.0.1:8000/auth/change-password",
           {
             old_password: passwordInput,
@@ -154,22 +152,22 @@ const ProfileForm = (props) => {
           },
           { headers: { Authorization: `Bearer ${token}` } }
         );
-
+        setPasswordInput("");
+        setNewPasswordInput("");
+        setConfirmPasswordInput("");
         setIsEdit(false);
       } catch (ex) {
         const { response } = ex;
-        if (response?.status === 412) {
+        console.log(response);
+        if (response?.data.detail.includes("new")) {
           setIsSamePasswords(true);
-        } else if (response?.status === 413) {
-          ////////////////////////////////////////// ВОТ ТУТ НАДО ПОМЕНЯТЬ СТАТУС ОШИБКИ ПРИ НЕПРАВИЛЬНОМ СТАРОМ ПАРОЛЕ
+        } else {
           setPasswordIsValid(false);
         }
-        setPasswordIsValid;
       }
     }
-    const { changeInfData } = await axios.post(
+    const { data } = await axios.post(
       "http://127.0.0.1:8000/business/start",
-
       {
         age: ageInput,
         height: heightInput,
@@ -222,6 +220,7 @@ const ProfileForm = (props) => {
             className={styles.form__field}
             sx={muiStyles}
             label="Пароль"
+            placeholder="Пароль"
             defaultValue={passwordInput}
             value={passwordInput}
             onChange={passwordInputChangeHandler}
@@ -246,6 +245,7 @@ const ProfileForm = (props) => {
                 sx={muiStyles}
                 error={!newPasswordIsValid || isSamePasswords}
                 label="Новый пароль"
+                placeholder="Новый пароль"
                 defaultValue={newPasswordInput}
                 value={newPasswordInput}
                 onChange={newPasswordInputChangeHandler}
@@ -261,6 +261,7 @@ const ProfileForm = (props) => {
                 sx={muiStyles}
                 error={!confirmPasswordIsValid}
                 label="Подтвердите пароль"
+                placeholder="Подтвердите пароль"
                 defaultValue={confirmPasswordInput}
                 value={confirmPasswordInput}
                 onChange={confirmPasswordInputChangeHandler}
