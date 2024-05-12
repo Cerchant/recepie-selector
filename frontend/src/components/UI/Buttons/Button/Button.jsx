@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styles from "./SubmitButton.module.css";
+import styles from "./Button.module.css";
 
 const shadeColor = (color, percent) => {
   var R = parseInt(color.substring(1, 3), 16);
@@ -20,7 +20,7 @@ const shadeColor = (color, percent) => {
   return "#" + RR + GG + BB;
 };
 
-const SubmitButton = (props) => {
+const Button = (props) => {
   const [isHover, setIsHover] = useState(false);
 
   const toggleIsHover = () => {
@@ -33,7 +33,7 @@ const SubmitButton = (props) => {
       style={{
         backgroundColor: !isHover ? props.color : shadeColor(props.color, -8),
       }}
-      type="submit"
+      type={props.type}
       onMouseEnter={toggleIsHover}
       onMouseLeave={toggleIsHover}
     >
@@ -42,4 +42,4 @@ const SubmitButton = (props) => {
   );
 };
 
-export default SubmitButton;
+export default Button;

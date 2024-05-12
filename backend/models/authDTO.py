@@ -17,6 +17,13 @@ class UserDTO(BaseUser):
     class Config:
         from_attributes = True
 
+class ChangePasswordDTO(BaseModel):
+    old_password: str
+    new_password: str
+    repeat_new_password: str
+
+class ChangeEmailDTO(BaseModel):
+    new_email: str
 
 class Token(BaseModel):
     access_token: str

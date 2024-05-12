@@ -1,0 +1,15 @@
+.btn {
+  max-width: 25px;
+  max-height: 25px;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.btn:hover {
+  color: #f2aa55;
+}
+
+.btn__container {
+  padding-top: 1px;
+  padding-left: 3px;
+}

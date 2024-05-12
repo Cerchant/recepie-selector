@@ -2,6 +2,7 @@ import { useState } from "react";
 import styles from "./App.module.css";
 import RecipeListPage from "./components/pages/RecipeListPage/RecipeListPage";
 import RecipePage from "./components/pages/RecipePage/RecipePage";
+import ProfilePage from "./components/pages/ProfilePage/ProfilePage";
 
 function App() {
   const recipes = [
@@ -79,14 +80,12 @@ function App() {
         },
         {
           text: "Вымесить плотное, но мягкое тесто, понемногу добавляя муку.",
-          images: [
-            "https://proprikol.ru/wp-content/uploads/2021/01/kartinki-syrniki-3.jpg",
-            "https://proprikol.ru/wp-content/uploads/2021/01/kartinki-syrniki-3.jpg",
-          ],
+          images: [],
         },
         {
           text: "Сформировать сырники и обжарить на сковороде по 4 минуты с каждой стороны при среднем огне.",
           images: [
+            "https://proprikol.ru/wp-content/uploads/2021/01/kartinki-syrniki-3.jpg",
             "https://proprikol.ru/wp-content/uploads/2021/01/kartinki-syrniki-3.jpg",
           ],
         },
@@ -113,8 +112,14 @@ function App() {
     }));
   };
 
+  localStorage.setItem(
+    "token",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTU1MTE4OTMsIm5iZiI6MTcxNTUxMTg5MywiZXhwIjoxNzE1NTE1NDkzLCJzdWIiOiIyIiwidXNlciI6eyJlbWFpbCI6InN0cmluZ0BtYWlsLmNvbSIsInVzZXJuYW1lIjoic3RyaW5nMSIsImlkIjoyfX0.UOAdpIEiSlqa-5PhyPom4zzY-_oerpIaG5RrEPRSsD8"
+  );
+
   return (
     <>
+      {/* <ProfilePage /> */}
       {!cookingState.isCooking ? (
         <RecipeListPage
           startCookingHandler={startCookingHandler}

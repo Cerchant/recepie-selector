@@ -8,7 +8,7 @@ const Img = (props) => {
         width: props.width,
         minHeight: props.minHeight,
       }}
-      className={styles.img__wrapper}
+      className={styles.img__wrapper + " " + props.className}
     >
       <img
         src={props.src}

@@ -19,7 +19,7 @@ Session = sessionmaker(
 
 Base.metadata.create_all(engine)
 
-def get_session() -> Session: # type: ignore
+def get_session() -> Session:
     session = Session()
     try:
         yield session

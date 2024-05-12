@@ -4,7 +4,8 @@
   align-items: center;
   width: 100%;
   max-width: 600px;
-  min-height: 100px;
+  max-height: 60px;
+  min-height: 60px;
   color: white;
   font-size: 36px;
   font-weight: 400;

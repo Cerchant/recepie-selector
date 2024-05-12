@@ -1,15 +1,19 @@
 import re
 from datetime import datetime, timedelta
 from fastapi import Depends
+from fastapi.encoders import jsonable_encoder
 from fastapi.security import OAuth2PasswordBearer
 from passlib.hash import bcrypt
 from jose import jwt, JWTError
 from pydantic import ValidationError
+from starlette import status
+from starlette.responses import JSONResponse
+
 from models.authDTO import UserDTO, Token, UserCreate
 from models.SessionMaker import get_session, Session
 from settings import settings
 from exceptions import Exceptions
-from models.User import User as ModelUser
+from models.User import User as ModelUser, User
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/auth/sing-in')
 regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
@@ -89,7 +93,7 @@ class AuthService:
             raise Exceptions.change_password
 
         if old_password == new_password:
-            raise Exceptions.change_password
+            raise Exceptions.change_password_same
 
         if not self.verify_password(old_password, get_user.password_hash):
             raise Exceptions.change_password
@@ -97,7 +101,20 @@ class AuthService:
         get_user.password_hash = self.hash_password(new_password)
         self.session.commit()
 
+    def change_email(self, user: UserDTO, newEmail: str):
+        if not self.verify_email(newEmail):
+            raise Exceptions.register_new_user_email
 
+        if user.email == newEmail:
+            raise Exceptions.change_email_same
+
+        if len(self.session.query(User).filter(User.email == newEmail).all()) >= 1:
+            raise Exceptions.change_email_exists
+
+        self.session.query(User).filter(User.id == user.id).update({"email": newEmail})
+        self.session.commit()
+        self.session.flush()
+        return JSONResponse(content=jsonable_encoder(status.HTTP_204_NO_CONTENT))
     def register_new_user(self, user_data: UserCreate) -> Token:
 
         user = ModelUser(
