@@ -1,6 +1,8 @@
 import styles from "./RegistrationPage.module.css";
 import RegistrationForm from "./RegistrationForm/RegistrationForm";
 
+import { Link } from "react-router-dom";
+
 const RegistrationPage = (props) => {
   return (
     <div className={styles["registration-page"]}>
@@ -14,8 +16,8 @@ const RegistrationPage = (props) => {
 
       <div className={styles["registration-page__content"]}>
         <div className={styles["registration-page__tabs"]}>
-          <button className={styles["registration-page__tab-button"]}>Вход</button>
-          <button className={styles["registration-page__tab-button__active"]}>Регистрация</button>
+          <Link to='/login' className={styles["registration-page__tab-button"]}>Вход</Link>
+          <Link to='/registration' className={styles["registration-page__tab-button__active"]}>Регистрация</Link>
         </div>
 
         <RegistrationForm />

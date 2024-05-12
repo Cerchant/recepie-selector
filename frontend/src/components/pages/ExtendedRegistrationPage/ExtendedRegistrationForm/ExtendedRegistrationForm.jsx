@@ -2,6 +2,7 @@
 import styles from "./ExtendedRegistrationForm.module.css";
 import Button from "../../../UI/Buttons/Button/Button";
 
+import { useHistory } from "react-router-dom";
 import { Autocomplete, TextField } from "@mui/material";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -15,6 +16,8 @@ const validateEmail = (email) => {
 };
 
 const ExtendedRegistrationForm = (props) => {
+  const history = useHistory();
+
   const [ageInput, setAgeInput] = useState();
   const [ageIsValid, setAgeIsValid] = useState(true);
 
@@ -63,7 +66,7 @@ const ExtendedRegistrationForm = (props) => {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      alert('success');
+      history.push("/recipe");
     } catch (ex) {
       const { response } = ex;
       console.log(response);

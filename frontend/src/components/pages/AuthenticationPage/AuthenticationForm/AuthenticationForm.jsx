@@ -2,6 +2,7 @@
 import styles from "./AuthenticationForm.module.css";
 import Button from "../../../UI/Buttons/Button/Button";
 
+import { useHistory } from "react-router-dom";
 import { TextField } from "@mui/material";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -15,8 +16,7 @@ const validateEmail = (email) => {
 };
 
 const AuthenticationForm = (props) => {
-  const token = localStorage.getItem("token");
-  const user = props.user;
+  const history = useHistory();
 
   const emailError = "Некорректный email";
   const passwordError = "Неверный email или пароль";
@@ -51,13 +51,14 @@ const AuthenticationForm = (props) => {
         "token", data.access_token
       );
       setPasswordIsValid(true);
+      history.push("/recipe");
     } catch (ex) {
       const { response } = ex;
       console.log(response);
       if (response?.data.detail === "Incorrect username or password.") {
         setPasswordIsValid(false);
       } else {
-        alert("Что-то пошло не так")
+        alert("Что-то пошло не так");
       }
     }
   };

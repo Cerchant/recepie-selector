@@ -1,6 +1,8 @@
 import styles from "./AuthenticationPage.module.css";
 import AuthenticationForm from "./AuthenticationForm/AuthenticationForm";
 
+import { Link } from "react-router-dom";
+
 const AuthenticationPage = (props) => {
   return (
     <div className={styles["authentication-page"]}>
@@ -14,8 +16,8 @@ const AuthenticationPage = (props) => {
 
       <div className={styles["authentication-page__content"]}>
         <div className={styles["authentication-page__tabs"]}>
-          <button className={styles["authentication-page__tab-button__active"]}>Вход</button>
-          <button className={styles["authentication-page__tab-button"]}>Регистрация</button>
+          <Link to='/login' className={styles["authentication-page__tab-button__active"]}>Вход</Link>
+          <Link to='/registration' className={styles["authentication-page__tab-button"]}>Регистрация</Link>
         </div>
 
         <AuthenticationForm />

@@ -2,6 +2,7 @@
 import styles from "./RegistrationForm.module.css";
 import Button from "../../../UI/Buttons/Button/Button";
 
+import { useHistory } from "react-router-dom";
 import { TextField } from "@mui/material";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -15,8 +16,7 @@ const validateEmail = (email) => {
 };
 
 const RegistrationForm = (props) => {
-  const token = localStorage.getItem("token");
-  const user = props.user;
+  const history = useHistory();
 
   const emailError = "Неверный email";
   const passwordError = "Пароль должен быть длиной не менее 8 символов";
@@ -49,11 +49,6 @@ const RegistrationForm = (props) => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    const bodyFormData = new FormData();
-    bodyFormData.append('username', emailInput);
-    bodyFormData.append('username', emailInput);
-    bodyFormData.append('password', passwordInput);
-    bodyFormData.append('password', passwordInput);
     try {
       const { data } = await axios.post(
         "http://127.0.0.1:8000/auth/sing-up",
@@ -68,13 +63,14 @@ const RegistrationForm = (props) => {
         "token", data.access_token
       );
       setPasswordIsValid(true);
+      history.push("/registration/finish");
     } catch (ex) {
       const { response } = ex;
       console.log(response);
       if (response?.data.detail === "A user with this name already exists. Use a different name.") {
         setEmailIsValid(false);
       } else {
-        alert("Что-то пошло не так")
+        alert("Что-то пошло не так");
       }
     }
   };
@@ -141,7 +137,7 @@ const RegistrationForm = (props) => {
       />
 
       <Button className={styles.form__submit} color="#F2AA55" type="submit">
-        Зарегестрироваться
+        Зарегистрироваться
       </Button>
       
     </form>
