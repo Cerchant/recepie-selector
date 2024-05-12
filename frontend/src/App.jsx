@@ -114,13 +114,13 @@ function App() {
 
   localStorage.setItem(
     "token",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTQ0ODIzMDksIm5iZiI6MTcxNDQ4MjMwOSwiZXhwIjoxNzE0NDg1OTA5LCJzdWIiOiIyIiwidXNlciI6eyJlbWFpbCI6InRlc3R0ZXN0QG1haWwucnUiLCJ1c2VybmFtZSI6IjEyMzQ1Njc4IiwiaWQiOjJ9fQ.ZmiBdfpDqc7ZpYu0zSnus_EFzNysGb_INeLxaEI1q00"
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTU1MTE4OTMsIm5iZiI6MTcxNTUxMTg5MywiZXhwIjoxNzE1NTE1NDkzLCJzdWIiOiIyIiwidXNlciI6eyJlbWFpbCI6InN0cmluZ0BtYWlsLmNvbSIsInVzZXJuYW1lIjoic3RyaW5nMSIsImlkIjoyfX0.UOAdpIEiSlqa-5PhyPom4zzY-_oerpIaG5RrEPRSsD8"
   );
 
   return (
     <>
-      <ProfilePage />
-      {/* {!cookingState.isCooking ? (
+      {/* <ProfilePage /> */}
+      {!cookingState.isCooking ? (
         <RecipeListPage
           startCookingHandler={startCookingHandler}
           recipes={recipes}
@@ -130,7 +130,7 @@ function App() {
           commitRecipeHandler={commitRecipeHandler}
           recipe={cookingState.recipe}
         />
-      )} */}
+      )}
     </>
   );
 }
