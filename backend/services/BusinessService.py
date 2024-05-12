@@ -1,8 +1,10 @@
 from fastapi import Depends, status
 from fastapi.encoders import jsonable_encoder
+from sqlalchemy import null
 from sqlalchemy.sql import text, select
 from starlette.responses import JSONResponse
 
+from exceptions import Exceptions
 from models.Buisness import KBJU
 from models.BuisnessDTO import AdditionalUserDataDTO, QueryForRecipeDTO, ExceptIntolerable, KbjuDTO
 from models.SessionMaker import get_session, Session
@@ -25,11 +27,15 @@ class BusinessService:
         )
         """))]
         data = self.session.query(AdditionalUserData).filter(AdditionalUserData.id.in_(select(User.additionalUserDataID).where(User.id==user.id))).first()
-        return AdditionalUserDataDTO(
-            age = data.age,
-            height = data.height,
-            weight = data.weight,
-            intolerableProducts = products)
+        try:
+            returnValue = AdditionalUserDataDTO(
+            age=data.age,
+            height=data.height,
+            weight=data.weight,
+            intolerableProducts=products)
+        except AttributeError:
+            returnValue = Exceptions.resource_not_found
+        return returnValue
 
     def setAdditionalUserData(self, additionalUserDataDTO: AdditionalUserDataDTO, user: UserDTO):
         additionalUserData = AdditionalUserData(age=additionalUserDataDTO.age, weight=additionalUserDataDTO.weight, height=additionalUserDataDTO.height)
