@@ -1,9 +1,19 @@
 import styles from "./RegistrationPage.module.css";
 import RegistrationForm from "./RegistrationForm/RegistrationForm";
 
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const RegistrationPage = (props) => {
+  const history = useHistory();
+
+  const toLoginHandler = () => {
+    history.push("/login");
+  };
+
+  const toRegistrationHandler = () => {
+    history.push("/registration");
+  };
+
   return (
     <div className={styles["registration-page"]}>
         <picture className={styles["page-header__logo"]}>
@@ -16,8 +26,8 @@ const RegistrationPage = (props) => {
 
       <div className={styles["registration-page__content"]}>
         <div className={styles["registration-page__tabs"]}>
-          <Link to='/login' className={styles["registration-page__tab-button"]}>Вход</Link>
-          <Link to='/registration' className={styles["registration-page__tab-button__active"]}>Регистрация</Link>
+          <button className={styles["registration-page__tab-button"]} type="button" onClick={toLoginHandler}>Вход</button>
+          <button className={styles["registration-page__tab-button__active"]} type="button" onClick={toRegistrationHandler}>Регистрация</button>
         </div>
 
         <RegistrationForm />

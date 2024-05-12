@@ -1,9 +1,19 @@
 import styles from "./AuthenticationPage.module.css";
 import AuthenticationForm from "./AuthenticationForm/AuthenticationForm";
 
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const AuthenticationPage = (props) => {
+  const history = useHistory();
+
+  const toLoginHandler = () => {
+    history.push("/login");
+  };
+
+  const toRegistrationHandler = () => {
+    history.push("/registration");
+  };
+
   return (
     <div className={styles["authentication-page"]}>
         <picture className={styles["page-header__logo"]}>
@@ -16,8 +26,8 @@ const AuthenticationPage = (props) => {
 
       <div className={styles["authentication-page__content"]}>
         <div className={styles["authentication-page__tabs"]}>
-          <Link to='/login' className={styles["authentication-page__tab-button__active"]}>Вход</Link>
-          <Link to='/registration' className={styles["authentication-page__tab-button"]}>Регистрация</Link>
+          <button className={styles["authentication-page__tab-button__active"]} type="button" onClick={toLoginHandler}>Вход</button>
+          <button className={styles["authentication-page__tab-button"]} type="button" onClick={toRegistrationHandler}>Регистрация</button>
         </div>
 
         <AuthenticationForm />
