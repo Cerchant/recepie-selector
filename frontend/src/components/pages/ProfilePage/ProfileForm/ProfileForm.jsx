@@ -1,3 +1,4 @@
+import { useHistory } from "react-router-dom/";
 import { Autocomplete, TextField } from "@mui/material";
 import Img from "../../../UI/Image/Img";
 import styles from "./ProfileForm.module.css";
@@ -15,6 +16,7 @@ const validateEmail = (email) => {
 };
 
 const ProfileForm = (props) => {
+  const history = useHistory();
   const token = localStorage.getItem("token");
   const user = props.user;
 
@@ -180,6 +182,11 @@ const ProfileForm = (props) => {
     );
   };
 
+  const logoutHandler = (e) => {
+    localStorage.removeItem("token");
+    history.push("/login");
+  };
+
   return (
     <form className={styles.form} onSubmit={submitHandler}>
       <div className={styles.form__avatar}>
@@ -331,6 +338,9 @@ const ProfileForm = (props) => {
         <Button className={styles.form__submit} color="#F2AA55" type="submit">
           Сохранить
         </Button>
+        <button className={styles.form__logout} type="button" onClick={logoutHandler}>
+          Выйти
+        </button>
       </div>
     </form>
   );
