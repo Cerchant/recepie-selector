@@ -22,6 +22,9 @@ class ChangePasswordDTO(BaseModel):
     new_password: str
     repeat_new_password: str
 
+class ChangeEmailDTO(BaseModel):
+    new_email: str
+
 class Token(BaseModel):
     access_token: str
     token_type: str = 'bearer'

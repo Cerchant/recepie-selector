@@ -1,6 +1,5 @@
 from fastapi import Depends, status
 from fastapi.encoders import jsonable_encoder
-from sqlalchemy import null
 from sqlalchemy.sql import text, select
 from starlette.responses import JSONResponse
 
@@ -56,19 +55,29 @@ class BusinessService:
         return JSONResponse(content=jsonable_encoder(status.HTTP_201_CREATED))
 
     def getProducts(self, exceptIntolerable: ExceptIntolerable, user: UserDTO):
-        intolerable = select(IntolerableProduct.name).where(IntolerableProduct.additionalUserDataID.in_(select(User.additionalUserDataID).where(User.id==user.id)))
+        intolerable = []
+        if exceptIntolerable.intolerable:
+            intolerable = select(IntolerableProduct.name).where(IntolerableProduct.additionalUserDataID.in_(select(User.additionalUserDataID).where(User.id==user.id)))
         return JSONResponse(content=jsonable_encoder({"productList": [i.name for i in self.session.query(Product).filter(Product.name.not_in(intolerable)).all()]}))
 
 
     def getRecipes(self, queryForRecipeDTO: QueryForRecipeDTO):
         names = [name for name in queryForRecipeDTO.ProductsList]
         param = "\"" + "\", \"".join(names) + "\""
-        toGetRecipes = f"""
-            SELECT DISTINCT r1.id as rid, r1.name as rname, r1.text as rtext FROM recipe r1
-            join product_recipe pr1 on 	pr1.recipe = r1.id
-            join product p1 on 	p1.id = pr1.product
-            WHERE p1.name IN ({param})
-        """
+        if len(queryForRecipeDTO.ProductsList) != 0:
+            toGetRecipes = f"""
+                SELECT DISTINCT r1.id as rid, r1.name as rname, r1.text as rtext FROM recipe r1
+                join product_recipe pr1 on 	pr1.recipe = r1.id
+                join product p1 on 	p1.id = pr1.product
+                WHERE p1.name IN ({param})
+            """
+        else:
+            toGetRecipes = """
+               SELECT DISTINCT r1.id as rid, r1.name as rname, r1.text as rtext FROM recipe r1
+                join product_recipe pr1 on 	pr1.recipe = r1.id
+                join product p1 on 	p1.id = pr1.product
+            """
+            queryForRecipeDTO.ProductsList = [i.name for i in self.session.query(Product).filter().all()]
         result = self.session.execute(text(toGetRecipes))
         final = []
 
