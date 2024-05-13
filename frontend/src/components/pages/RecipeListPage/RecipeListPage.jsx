@@ -50,8 +50,8 @@ const RecipeListPage = (props) => {
         ],
       };
     });
-    console.log(dto);
     setRecipes(dto);
+    props.handleRecipes(dto);
   };
 
   //const recipes = props.recipes;

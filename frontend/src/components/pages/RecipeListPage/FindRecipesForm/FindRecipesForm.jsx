@@ -28,15 +28,8 @@ const FindRecipesForm = (props) => {
         )
       ).data.productList;
 
-      setOptions(() => {
-        const data = [];
-        for (let i = 0; i < fetchedOptions.length; i++) {
-          data.push({
-            title: fetchedOptions[i],
-          });
-        }
-        return data;
-      });
+      setOptions(fetchedOptions.map((opt) => ({ title: opt })));
+      setValue(fetchedOptions.map((opt) => ({ title: opt })));
     }
     fetchOptions();
   }, [isChecked]);
