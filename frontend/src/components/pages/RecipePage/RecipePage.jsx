@@ -10,9 +10,11 @@ import RecipeInstruction from "./RecipeInstruction/RecipeInstruction";
 import NarrowOrangeButton from "../../UI/Buttons/NarrowOrangeButton/NarrowOrangeButton";
 import Container from "../../UI/Container/Container";
 
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+
 const RecipePage = (props) => {
-  // recipe = GET('recipe/{props.id}')
-  // https://daily-menu.ru/dailymenu/recipes/view/4454
+  const params = useParams();
+  params.recipeId
   const recipe = props.recipe;
 
   const commitRecipeHandler = (event) => {

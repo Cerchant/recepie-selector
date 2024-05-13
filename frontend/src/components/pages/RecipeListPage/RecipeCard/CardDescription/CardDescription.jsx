@@ -2,11 +2,14 @@ import NarrowOrangeButton from "../../../../UI/Buttons/NarrowOrangeButton/Narrow
 import RecipeSummary from "../../../../UI/RecipeSummary/RecipeSummary";
 import styles from "./CardDescription.module.css";
 
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+
 const CardDescription = (props) => {
+  const history = useHistory()
   const recipe = props.recipe;
 
   const startCookingHandler = () => {
-    props.startCookingHandler(recipe.id);
+    history.push(`/recipe/${recipe.id}`)
   };
 
   return (

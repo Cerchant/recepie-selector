@@ -1,0 +1,20 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 95%;
+  margin-top: 20pt;
+  margin-bottom: 20pt;
+  align-self: center;
+}
+
+.form__field {
+  width: 100%;
+  min-width: 80px;
+  margin-bottom: 25px;
+}
+
+.form__submit {
+  max-width: 400px;
+  align-self: center;
+}

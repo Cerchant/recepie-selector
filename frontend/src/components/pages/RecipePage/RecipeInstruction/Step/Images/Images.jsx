@@ -1,4 +1,4 @@
-import "./Images.css";
+import styles from "./Images.module.css";
 import Img from "../../../../../UI/Image/Img";
 
 const Images = (props) => {

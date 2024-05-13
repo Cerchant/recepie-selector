@@ -85,3 +85,17 @@
 .form__submit {
   max-width: 400px;
 }
+
+.form__logout {
+  background-color: "#F2AA55";
+  margin-top: 16pt;
+  padding: 0;
+  width: 100%;
+  min-height: 55px;
+  max-height: 55px;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  transition: 0.2s;
+  max-width: 400px;
+}

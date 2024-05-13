@@ -1,8 +1,12 @@
+import {Route, Switch, Redirect} from "react-router-dom";
 import { useState } from "react";
 import styles from "./App.module.css";
 import RecipeListPage from "./components/pages/RecipeListPage/RecipeListPage";
 import RecipePage from "./components/pages/RecipePage/RecipePage";
 import ProfilePage from "./components/pages/ProfilePage/ProfilePage";
+import AuthenticationPage from "./components/pages/AuthenticationPage/AuthenticationPage";
+import RegistrationPage from "./components/pages/RegistrationPage/RegistrationPage";
+import ExtendedRegistrationPage from "./components/pages/ExtendedRegistrationPage/ExtendedRegistrationPage";
 
 function App() {
   const recipes = [
@@ -112,27 +116,53 @@ function App() {
     }));
   };
 
-  localStorage.setItem(
-    "token",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTU1MTE4OTMsIm5iZiI6MTcxNTUxMTg5MywiZXhwIjoxNzE1NTE1NDkzLCJzdWIiOiIyIiwidXNlciI6eyJlbWFpbCI6InN0cmluZ0BtYWlsLmNvbSIsInVzZXJuYW1lIjoic3RyaW5nMSIsImlkIjoyfX0.UOAdpIEiSlqa-5PhyPom4zzY-_oerpIaG5RrEPRSsD8"
-  );
 
   return (
-    <>
-      {/* <ProfilePage /> */}
-      {!cookingState.isCooking ? (
-        <RecipeListPage
-          startCookingHandler={startCookingHandler}
-          recipes={recipes}
-        />
-      ) : (
-        <RecipePage
-          commitRecipeHandler={commitRecipeHandler}
-          recipe={cookingState.recipe}
-        />
-      )}
-    </>
+    <Switch>
+      <Route path='/login' exact>
+          <AuthenticationPage/>
+      </Route>
+      <Route path='/registration' exact>
+          <RegistrationPage/>
+      </Route>
+      <Route path='/registration/finish' exact>
+          <ExtendedRegistrationPage/>
+      </Route>
+      <Route path='/profile' exact>
+          <ProfilePage/>
+      </Route>
+      <Route path='/recipe' exact>
+          <RecipeListPage/>
+      </Route>
+      <Route path='/recipe/:recipeId' exact>
+          <RecipePage/>
+      </Route>
+      <Route path='*'>
+        <Redirect to='/recipe'/>
+      </Route>
+    </Switch>
   );
+
+  // return (
+  //   <AuthenticationPage/>
+  // )
+
+  // return (
+  //   <>
+  //     {/* <ProfilePage /> */}
+  //     {!cookingState.isCooking ? (
+  //       <RecipeListPage
+  //         startCookingHandler={startCookingHandler}
+  //         recipes={recipes}
+  //       />
+  //     ) : (
+  //       <RecipePage
+  //         commitRecipeHandler={commitRecipeHandler}
+  //         recipe={cookingState.recipe}
+  //       />
+  //     )}
+  //   </>
+  // );
 }
 
 export default App;

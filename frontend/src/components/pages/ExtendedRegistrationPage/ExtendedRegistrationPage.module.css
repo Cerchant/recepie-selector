@@ -1,0 +1,35 @@
+.extended-registration-page {
+    display: flex;
+    flex-direction: column;
+    padding-top: 70px;
+    padding-bottom: 70px;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    
+    background-color: #f1ece0;
+}
+
+.extended-registration-page__logo {
+    width: 60px;
+    height: 60px;
+    align-self: center;
+}
+
+.extended-registration-page__content {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    width: 60%;
+    min-width: 400pt;
+}
+
+.extended-registration-page__title-text {
+    color: #4E5263;
+    font-size: 20px;
+    align-self: center;
+    width: 90%;
+    margin-top: 24pt;
+    margin-bottom: 24pt;
+    text-align: center;
+}
