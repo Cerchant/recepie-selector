@@ -16,19 +16,31 @@ const FindRecipesForm = (props) => {
   const [isChecked, setIsChecked] = useState(true);
 
   useEffect(() => {
+    let fetchedOptions;
     console.log(isChecked);
     async function fetchOptions() {
-      const fetchedOptions = (
-        await axios.put(
-          "http://127.0.0.1:8000/business/products",
-          {
-            intolerable: isChecked,
-          },
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        )
-      ).data.productList;
+      try {
+        fetchedOptions = (
+          await axios.put(
+            "http://127.0.0.1:8000/business/products",
+            {
+              intolerable: isChecked,
+            },
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          )
+        ).data.productList;
+      } catch (ex) {
+        const { response } = ex;
+        console.log(response);
+        if (response?.data.detail === "Could not validate credentials") {
+          alert("Ваша сессия истекла");
+          history.push('/login');
+        } else {
+          alert("Что-то пошло не так");
+        }
+      }
 
       setOptions(fetchedOptions.map((opt) => ({ title: opt })));
       setValue(fetchedOptions.map((opt) => ({ title: opt })));
