@@ -14,8 +14,9 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 const RecipePage = (props) => {
   const params = useParams();
-  params.recipeId
+  params.recipeId;
   const recipe = props.recipe;
+  console.log(recipe);
 
   const commitRecipeHandler = (event) => {
     alert("Currenty not implemented");

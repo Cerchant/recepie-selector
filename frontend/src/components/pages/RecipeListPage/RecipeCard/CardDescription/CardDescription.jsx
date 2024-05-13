@@ -5,11 +5,12 @@ import styles from "./CardDescription.module.css";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const CardDescription = (props) => {
-  const history = useHistory()
+  const history = useHistory();
   const recipe = props.recipe;
 
   const startCookingHandler = () => {
-    history.push(`/recipe/${recipe.id}`)
+    history.push(`/recipe/${recipe.id}`);
+    props.startCookingHandler(recipe.id);
   };
 
   return (
