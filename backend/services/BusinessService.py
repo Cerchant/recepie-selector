@@ -9,7 +9,7 @@ from models.BuisnessDTO import AdditionalUserDataDTO, QueryForRecipeDTO, ExceptI
 from models.SessionMaker import get_session, Session
 from models.User import User
 from models.authDTO import UserDTO
-from models.Buisness import AdditionalUserData, IntolerableProduct, Recipe, product_recipe
+from models.Buisness import AdditionalUserData, IntolerableProduct, Recipe, Step, product_recipe
 from models.Buisness import Product
 
 class BusinessService:
@@ -112,6 +112,7 @@ class BusinessService:
                     if len(final[-1]) < 5:
                         crudeKbju = self.session.query(KBJU).filter(KBJU.recipe_id == final[itr].get("rid")).first()
                         final[itr]["kbju"] = KbjuDTO(k=crudeKbju.k, b=crudeKbju.b, j=crudeKbju.j, u=crudeKbju.u)
+                        final[itr]["step"] = self.session.query(Step).filter(Step.recipe_id == final[itr].get("rid")).all()
                 except IndexError:
                     pass
             itr-=-1
@@ -158,4 +159,21 @@ class BusinessService:
         recipes[1].products = [products[1], products[5], products[7], products[13], products[14], products[15]]
         recipes[1].kbju = KBJU(k=350, b=12.1, j=32.2, u=51.5)
         self.session.commit()
+
+        steps = [
+            Step(recipe_id=recipes[0].id, picture="", sentence="Почистите, помойте лук и нарежьте мелко. Так же небольшими брусочками нарежьте 50 г бекона."),
+            Step(recipe_id=recipes[0].id, picture="", sentence="В кастрюлю налейте воду, доведите до кипения, убавьте огонь и влейте туда 1 ст. л. уксуса. Размешайте воду, сделав воронку. Аккуратно разбейте в воронку воды яйцо, чуть-чуть перемешайте и варите 2-3 минуты. Достаньте шумовкой и выложите на плотное бумажное полотенце, чтобы яйцо просушить. Можно использовать черствый кусок хлеба. Он тоже хорошо впитывает воду."),
+            Step(recipe_id=recipes[0].id, picture="", sentence="На сковороде растопите сливочное масло и поджарьте тосты. Лук обжарьте с беконом."),
+            Step(recipe_id=recipes[0].id, picture="", sentence="Приготовьте голландский соус. Поставьте кастрюлю на паровую баню – на кастрюлю с водой поставьте миску, чтобы она не касалась воды. В миску положите 65 г сливочного масла, растопите его, помешивая венчиком, и посолите. В отдельной миске взбейте 3 яичных желтка и тонкой струйкой влейте их в масло, взбейте и добавьте 1 ст. л. лимонного сока."),
+            Step(recipe_id=recipes[0].id, picture="", sentence="Сформируйте блюдо: на хлебные тосты выложите бекон с луком, сверху яйцо и полейте голландским соусом."),
+            Step(recipe_id=recipes[1].id, picture="/recepie-selector/backend/images/kartoshka_po_derevencky_v_duhovke_1.webp", sentence="Картофель тщательно вымойте с жёсткой щеткой, не очищайте от кожуры."),
+            Step(recipe_id=recipes[1].id, picture="C:/Users/serge/OneDrive/Рабочий стол/recepie-selector/backend/images/kartoshka_po_derevencky_v_duhovke_2.webp", sentence="Нарежьте длинными дольками вдоль."),
+            Step(recipe_id=recipes[1].id, picture="C:/Users/serge/OneDrive/Рабочий стол/recepie-selector/backend/images/kartoshka_po_derevencky_v_duhovke_3.webp", sentence="Сложите дольки в большой контейнер или пакет, добавьте оливковое масло и приправу. Закройте контейнер или пакет и тщательно встряхните, чтобы равномерно распределить специи по картошке."),
+            Step(recipe_id=recipes[1].id, picture="C:/Users/serge/OneDrive/Рабочий стол/recepie-selector/backend/images/kartoshka_po_derevencky_v_duhovke_4.webp", sentence="Выложите картофель на противень в один слой и запекайте в духовке при 180 °C 30-40 минут до готовности."),
+            Step(recipe_id=recipes[1].id, picture="C:/Users/serge/OneDrive/Рабочий стол/recepie-selector/backend/images/kartoshka_po_derevencky_v_duhovke_5.webp", sentence="Картофель по-деревенски готов."),
+        ]
+        for step in steps:
+            self.session.add(step)
+        self.session.commit()
+
         return JSONResponse(content=jsonable_encoder(status.HTTP_201_CREATED))
