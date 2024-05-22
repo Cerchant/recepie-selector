@@ -130,6 +130,15 @@ class AuthService:
                 .first()
         )
 
+        db_check_by_email = (
+            self.session.query(ModelUser)
+                .filter(ModelUser.email == user_data.email)
+                .first()
+        )
+
+        if db_check_by_email:
+            raise Exceptions.change_email_exists
+
         if not user_data.password == user_data.repeatPassword:
             raise Exceptions.register_new_user_password
 

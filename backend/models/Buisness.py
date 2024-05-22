@@ -1,8 +1,12 @@
-from sqlalchemy import String, ForeignKey, Column
+from datetime import datetime
+
+from sqlalchemy import String, ForeignKey, Column, DateTime, func
 from typing import Optional, List
 from sqlalchemy.orm import mapped_column, Mapped, relationship
 from .Base import Base
 from sqlalchemy import Table
+
+from .User import User
 
 # TODO: ?? add relationships for user Recipe history
 
@@ -63,3 +67,11 @@ class AdditionalUserData(Base):
     age: Mapped[int]
     height: Mapped[int]
     intolerableProducts: Mapped[List["IntolerableProduct"]] = relationship()
+
+class UserRecipeHistory(Base):
+    __tablename__ = "user_recipe_history"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    recipe_id: Mapped["Recipe"] = mapped_column(ForeignKey("recipe.id"))
+    timestamp = Column(DateTime(timezone=True), server_default=func.now())

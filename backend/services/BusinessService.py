@@ -1,20 +1,22 @@
 from fastapi import Depends, status
 from fastapi.encoders import jsonable_encoder
+from sqlalchemy import and_
 from sqlalchemy.sql import text, select
 from starlette.responses import JSONResponse
 
 from exceptions import Exceptions
-from models.Buisness import KBJU
-from models.BuisnessDTO import AdditionalUserDataDTO, QueryForRecipeDTO, ExceptIntolerable, KbjuDTO
+from models.Buisness import KBJU, UserRecipeHistory
+from models.BuisnessDTO import AdditionalUserDataDTO, QueryForRecipeDTO, ExceptIntolerable, KbjuDTO, QueryHistoryDTO
 from models.SessionMaker import get_session, Session
 from models.User import User
 from models.authDTO import UserDTO
 from models.Buisness import AdditionalUserData, IntolerableProduct, Recipe, Step, product_recipe
 from models.Buisness import Product
 
+
 class BusinessService:
 
-    def __init__(self, session: Session = Depends(get_session)): # type: ignore
+    def __init__(self, session: Session = Depends(get_session)):  # type: ignore
         self.session = session
 
     def getAdditionalUserData(self, user: UserDTO):
@@ -25,19 +27,21 @@ class BusinessService:
             WHERE u.id = {user.id}
         )
         """))]
-        data = self.session.query(AdditionalUserData).filter(AdditionalUserData.id.in_(select(User.additionalUserDataID).where(User.id==user.id))).first()
+        data = self.session.query(AdditionalUserData).filter(
+            AdditionalUserData.id.in_(select(User.additionalUserDataID).where(User.id == user.id))).first()
         try:
             returnValue = AdditionalUserDataDTO(
-            age=data.age,
-            height=data.height,
-            weight=data.weight,
-            intolerableProducts=products)
+                age=data.age,
+                height=data.height,
+                weight=data.weight,
+                intolerableProducts=products)
         except AttributeError:
             returnValue = Exceptions.resource_not_found
         return returnValue
 
     def setAdditionalUserData(self, additionalUserDataDTO: AdditionalUserDataDTO, user: UserDTO):
-        additionalUserData = AdditionalUserData(age=additionalUserDataDTO.age, weight=additionalUserDataDTO.weight, height=additionalUserDataDTO.height)
+        additionalUserData = AdditionalUserData(age=additionalUserDataDTO.age, weight=additionalUserDataDTO.weight,
+                                                height=additionalUserDataDTO.height)
         self.session.add(additionalUserData)
         self.session.flush()
         self.session.refresh(additionalUserData)
@@ -57,9 +61,47 @@ class BusinessService:
     def getProducts(self, exceptIntolerable: ExceptIntolerable, user: UserDTO):
         intolerable = []
         if exceptIntolerable.intolerable:
-            intolerable = select(IntolerableProduct.name).where(IntolerableProduct.additionalUserDataID.in_(select(User.additionalUserDataID).where(User.id==user.id)))
-        return JSONResponse(content=jsonable_encoder({"productList": [i.name for i in self.session.query(Product).filter(Product.name.not_in(intolerable)).all()]}))
+            intolerable = select(IntolerableProduct.name).where(IntolerableProduct.additionalUserDataID.in_(
+                select(User.additionalUserDataID).where(User.id == user.id)))
+        return JSONResponse(content=jsonable_encoder({"productList": [i.name for i in
+                                                                      self.session.query(Product).filter(
+                                                                          Product.name.not_in(intolerable)).all()]}))
 
+    def getHistory(self, queryHistoryDTO: QueryHistoryDTO, user):
+        history = self.session.query(UserRecipeHistory).filter(and_(UserRecipeHistory.user_id == user.id,
+                                                          UserRecipeHistory.timestamp.between(
+                                                              queryHistoryDTO.start_date_time,
+                                                              queryHistoryDTO.end_date_time
+                                                          ))).all()
+        final = [{} for _ in history]
+        itr = 0
+        for row in history:
+            recipe = self.session.query(Recipe).filter(Recipe.id == row.recipe_id).first()
+            final[itr]["rid"] = recipe.id
+            final[itr]["rname"] = recipe.name
+            final[itr]["kbju"] = self.session.query(KBJU).filter(KBJU.recipe_id == final[itr].get("rid")).first()
+            # final[itr]["step"] = self.session.query(Step).filter(Step.recipe_id == final[itr].get("rid")).all()
+            itr-=-1
+        return final
+
+    
+    # starts recipe, adds it to history
+    def getRecipe(self, queryBeginRecipeDTO, user):
+        result = self.session.execute(text(f"""
+                SELECT r1.id as rid, r1.name as rname, r1.text as rtext FROM recipe r1
+                WHERE rid IN ({queryBeginRecipeDTO.recipe_id})"""))
+        final = []
+        for row in result:
+            final.append(row._asdict())
+        try:
+            crudeKbju = self.session.query(KBJU).filter(KBJU.recipe_id == final[0].get("rid")).first()
+            final[0]["kbju"] = KbjuDTO(k=crudeKbju.k, b=crudeKbju.b, j=crudeKbju.j, u=crudeKbju.u)
+            final[0]["step"] = self.session.query(Step).filter(Step.recipe_id == final[0].get("rid")).all()
+            self.session.add(UserRecipeHistory(user_id=user.id, recipe_id=queryBeginRecipeDTO.recipe_id))
+            self.session.commit()
+        except IndexError:
+            pass
+        return JSONResponse(content=jsonable_encoder(final))
 
     def getRecipes(self, queryForRecipeDTO: QueryForRecipeDTO):
         names = [name for name in queryForRecipeDTO.ProductsList]
@@ -103,7 +145,7 @@ class BusinessService:
                     if not str(p._asdict().get("pname")) in set(queryForRecipeDTO.ProductsList):
                         try:
                             final.pop(itr)
-                            itr-=1
+                            itr -= 1
                             break
                         except IndexError:
                             pass
@@ -115,29 +157,29 @@ class BusinessService:
                         final[itr]["step"] = self.session.query(Step).filter(Step.recipe_id == final[itr].get("rid")).all()
                 except IndexError:
                     pass
-            itr-=-1
+            itr -= -1
 
         return JSONResponse(content=jsonable_encoder(final))
 
     def initBaseData(self):
         products = [
-            Product(name="фундук"), # index 0
-            Product(name="картофель"), # index 1
-            Product(name="ветчина"), # index 2
-            Product(name="телятина"), # index 3
-            Product(name="курица"), # index 4
-            Product(name="подсолнечное масло"), # index 5
-            Product(name="яйца"), # index 6
-            Product(name="хлеб формовой"), # index 7
-            Product(name="уксус"), # index 8
-            Product(name="соль"), # index 9
-            Product(name="сок лимонный"), # index 10
-            Product(name="вино белое сухое"), # index 11
-            Product(name="масло сливочное"), # index 12
-            Product(name="зелень"), # index 13
-            Product(name="пряности"), # index 14
-            Product(name="перец душистый молотый"), # index 15
-            Product(name="Чеснок гранулированный"), # index 16
+            Product(name="фундук"),  # index 0
+            Product(name="картофель"),  # index 1
+            Product(name="ветчина"),  # index 2
+            Product(name="телятина"),  # index 3
+            Product(name="курица"),  # index 4
+            Product(name="подсолнечное масло"),  # index 5
+            Product(name="яйца"),  # index 6
+            Product(name="хлеб формовой"),  # index 7
+            Product(name="уксус"),  # index 8
+            Product(name="соль"),  # index 9
+            Product(name="сок лимонный"),  # index 10
+            Product(name="вино белое сухое"),  # index 11
+            Product(name="масло сливочное"),  # index 12
+            Product(name="зелень"),  # index 13
+            Product(name="пряности"),  # index 14
+            Product(name="перец душистый молотый"),  # index 15
+            Product(name="Чеснок гранулированный"),  # index 16
         ]
         for p in products:
             self.session.add(p)
@@ -153,8 +195,8 @@ class BusinessService:
             self.session.add(r)
         self.session.commit()
 
-
-        recipes[0].products = [products[6], products[2], products[7], products[8], products[9], products[12], products[11], products[10]]
+        recipes[0].products = [products[6], products[2], products[7], products[8], products[9], products[12],
+                               products[11], products[10]]
         recipes[0].kbju = KBJU(k=123, b=43.2, j=45.6, u=32.2)
         recipes[1].products = [products[1], products[5], products[7], products[13], products[14], products[15]]
         recipes[1].kbju = KBJU(k=350, b=12.1, j=32.2, u=51.5)

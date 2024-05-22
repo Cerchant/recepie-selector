@@ -4,8 +4,6 @@ from typing import Optional
 from .Base import Base
 import sqlalchemy as sa
 
-from .Buisness import AdditionalUserData
-
 
 class User(Base):
     __tablename__ = 'users'
