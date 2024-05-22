@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends
 
-from models.BuisnessDTO import AdditionalUserDataDTO, QueryForRecipeDTO, ExceptIntolerable
+from models.BuisnessDTO import AdditionalUserDataDTO, QueryForRecipeDTO, ExceptIntolerable, QueryBeginRecipeDTO, \
+    QueryHistoryDTO
 from models.authDTO import UserDTO
 from services.BusinessService import BusinessService
 from services.auth import get_current_user
@@ -34,3 +35,14 @@ def getProducts(exceptIntolerable: ExceptIntolerable,
 def getRecipes(queryForRecipeDTO: QueryForRecipeDTO,
         service: BusinessService = Depends()):
     return service.getRecipes(queryForRecipeDTO)
+
+@business.post('/recipe')
+def getRecipe(queryBeginRecipeDTO: QueryBeginRecipeDTO,
+              user: UserDTO = Depends(get_current_user),
+              service: BusinessService = Depends()):
+    return service.getRecipe(queryBeginRecipeDTO, user)
+@business.post('/history')
+def getHistory(queryHistoryDTO: QueryHistoryDTO,
+               user: UserDTO = Depends(get_current_user),
+               service: BusinessService = Depends()):
+    return service.getHistory(queryHistoryDTO, user)
