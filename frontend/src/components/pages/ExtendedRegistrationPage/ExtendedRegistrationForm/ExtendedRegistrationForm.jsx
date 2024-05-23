@@ -107,17 +107,17 @@ const ExtendedRegistrationForm = (props) => {
 
   const ageInputChangeHandler = (e) => {
     setAgeInput(e.target.value);
-    setAgeIsValid(+e.target.value > 0);
+    setAgeIsValid(e.target.value >= 3 && e.target.value <= 130);
   };
 
   const heightInputChangeHandler = (e) => {
     setHeightInput(e.target.value);
-    setHeightIsValid(+e.target.value > 0);
+    setHeightIsValid(e.target.value >= 60 && e.target.value <= 270);
   };
 
   const weightInputChangeHandler = (e) => {
     setWeightInput(e.target.value);
-    setWeightIsValid(+e.target.value > 0);
+    setWeightIsValid(e.target.value >= 8 && e.target.value <= 700);
   };
 
 
