@@ -51,6 +51,10 @@ const ExtendedRegistrationForm = (props) => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    if (!(ageIsValid && weightIsValid && heightIsValid)) {
+      alert('Необходимо исправить ошибки в форме');
+      return;
+    }
     try {
       const { data } = await axios.post(
         "http://127.0.0.1:8000/business/start",
