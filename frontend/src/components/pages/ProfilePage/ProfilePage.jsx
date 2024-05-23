@@ -9,14 +9,15 @@ import Title from "../../UI/Title/Title";
 import ProfileForm from "./ProfileForm/ProfileForm";
 import styles from "./ProfilePage.module.css";
 import axios from "axios";
+import ProfileTable from "./ProfileTable/ProfileTable";
 
 const ProfilePage = (props) => {
   const history = useHistory();
   const token = localStorage.getItem("token");
   const [user, setUser] = useState();
+  const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
-
     const fetchUser = async () => {
       let userData;
       try {
@@ -30,7 +31,7 @@ const ProfilePage = (props) => {
         console.log(response);
         if (response?.data.detail === "Could not validate credentials") {
           alert("Ваша сессия истекла");
-          history.push('/login');
+          history.push("/login");
         } else {
           alert("Что-то пошло не так");
         }
@@ -43,10 +44,50 @@ const ProfilePage = (props) => {
       ).data;
       setUser({ ...additionData, ...userData });
     };
+    const fetchRecipes = async () => {
+      let recipesData;
+      try {
+        recipesData = (
+          await axios.get("НУЖЕН АДЕКВАТНЫЙ ЗАПРОС", {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+        ).data;
+        //setRecipes(recipesData); ////////////////////////////////////////// ТУТ НАДО ИЗМЕНИТЬ ДАННЫЕ На ПРИХОДЯЩие
+        setRecipes([
+          {
+            id: 1,
+            name: "Яйца Бенедикт",
+            k: 123,
+            b: 321,
+            j: 142,
+            u: 23,
+          },
+          {
+            id: 2,
+            name: "Картошка по-деревенски в духовке",
+            k: 123,
+            b: 321,
+            j: 142,
+            u: 23,
+          },
+          {
+            id: 3,
+            name: "Сырники",
+            k: 123,
+            b: 321,
+            j: 142,
+            u: 23,
+          },
+        ]);
+      } catch (ex) {
+        const { response } = ex;
+        console.log(response);
+        setRecipes([]);
+      }
+    };
     fetchUser();
+    fetchRecipes();
   }, []);
-
-  console.log(user);
 
   if (user === undefined) {
     return (
@@ -72,6 +113,9 @@ const ProfilePage = (props) => {
           <Content>
             <div className={styles.profile__form}>
               <ProfileForm user={user} />
+            </div>
+            <div className={styles.profile__table}>
+              <ProfileTable rows={recipes} />
             </div>
           </Content>
         </Container>

@@ -1,0 +1,32 @@
+.table {
+  border-collapse: collapse;
+}
+
+.table__th,
+.table__td {
+  box-sizing: border-box;
+  border-bottom: 1px solid #a8a8a8;
+
+  width: 237px;
+}
+
+.table__th {
+  padding: 25px;
+  background-color: rgba(242, 170, 85, 0.2);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.table__td {
+  padding: 20px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.table__td:first-child {
+  text-align: left;
+}
+
+.table__body tr:last-child .table__td {
+  border-bottom: none;
+}

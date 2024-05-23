@@ -112,17 +112,17 @@ const ProfileForm = (props) => {
 
   const ageInputChangeHandler = (e) => {
     setAgeInput(e.target.value);
-    setAgeIsValid(+e.target.value > 0);
+    setAgeIsValid(+e.target.value >= 3);
   };
 
   const heightInputChangeHandler = (e) => {
     setHeightInput(e.target.value);
-    setHeightIsValid(+e.target.value > 0);
+    setHeightIsValid(+e.target.value >= 60);
   };
 
   const weightInputChangeHandler = (e) => {
     setWeightInput(e.target.value);
-    setWeightIsValid(+e.target.value > 0);
+    setWeightIsValid(+e.target.value >= 10);
   };
 
   const newPasswordInputChangeHandler = (e) => {
@@ -338,7 +338,12 @@ const ProfileForm = (props) => {
         <Button className={styles.form__submit} color="#F2AA55" type="submit">
           Сохранить
         </Button>
-        <button className={styles.form__logout} type="button" onClick={logoutHandler}>
+
+        <button
+          className={styles.form__logout}
+          type="button"
+          onClick={logoutHandler}
+        >
           Выйти
         </button>
       </div>
