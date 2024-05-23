@@ -36,7 +36,7 @@ def getRecipes(queryForRecipeDTO: QueryForRecipeDTO,
         service: BusinessService = Depends()):
     return service.getRecipes(queryForRecipeDTO)
 
-@business.post('/recipe')
+@business.put('/recipe')
 def getRecipe(queryBeginRecipeDTO: QueryBeginRecipeDTO,
               user: UserDTO = Depends(get_current_user),
               service: BusinessService = Depends()):
@@ -46,3 +46,8 @@ def getHistory(queryHistoryDTO: QueryHistoryDTO,
                user: UserDTO = Depends(get_current_user),
                service: BusinessService = Depends()):
     return service.getHistory(queryHistoryDTO, user)
+@business.post('/recipe-history')
+def addRecipeInHistory(queryBeginRecipeDTO: QueryBeginRecipeDTO,
+              user: UserDTO = Depends(get_current_user),
+              service: BusinessService = Depends()):
+    return service.addRecipeToHistory(queryBeginRecipeDTO, user)
