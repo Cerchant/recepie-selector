@@ -21,33 +21,39 @@ const RecipeListPage = (props) => {
         imageLink:
           "https://proprikol.ru/wp-content/uploads/2021/01/kartinki-syrniki-3.jpg",
         ingridients: model.productList,
-        portionMass: 285,
+        portionMass: 50,
         kbju: {
-          k: 654,
-          b: 38.4,
-          j: 13.2,
-          u: 96.4,
+          k: model.kbju.k,
+          b: model.kbju.b,
+          j: model.kbju.j,
+          u: model.kbju.u,
         },
-        instruction: [
-          {
-            text: "Взбить 2 небольших яйца с сахаром.",
-            images: [],
-          },
-          {
-            text: "Растереть творог и добавить в яичную смесь.",
-            images: [],
-          },
-          {
-            text: "Вымесить плотное, но мягкое тесто, понемногу добавляя муку.",
-            images: [],
-          },
-          {
-            text: "Сформировать сырники и обжарить на сковороде по 4 минуты с каждой стороны при среднем огне.",
-            images: [
-              "https://proprikol.ru/wp-content/uploads/2021/01/kartinki-syrniki-3.jpg",
-            ],
-          },
-        ],
+        instruction: model.step.map((steps) => {
+          return {
+            text: steps.sentence,
+            images: steps.picture ? [] : [`http://127.0.0.1:8000/${steps.picture}`],
+          }
+        })
+        // instruction: [
+        //   {
+        //     text: "Взбить 2 небольших яйца с сахаром.",
+        //     images: [],
+        //   },
+        //   {
+        //     text: "Растереть творог и добавить в яичную смесь.",
+        //     images: [],
+        //   },
+        //   {
+        //     text: "Вымесить плотное, но мягкое тесто, понемногу добавляя муку.",
+        //     images: [],
+        //   },
+        //   {
+        //     text: "Сформировать сырники и обжарить на сковороде по 4 минуты с каждой стороны при среднем огне.",
+        //     images: [
+        //       "https://proprikol.ru/wp-content/uploads/2021/01/kartinki-syrniki-3.jpg",
+        //     ],
+        //   },
+        // ],
       };
     });
     setRecipes(dto);
