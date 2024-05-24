@@ -210,11 +210,11 @@ class BusinessService:
             Step(recipe_id=recipes[0].id, picture="", sentence="На сковороде растопите сливочное масло и поджарьте тосты. Лук обжарьте с беконом."),
             Step(recipe_id=recipes[0].id, picture="", sentence="Приготовьте голландский соус. Поставьте кастрюлю на паровую баню – на кастрюлю с водой поставьте миску, чтобы она не касалась воды. В миску положите 65 г сливочного масла, растопите его, помешивая венчиком, и посолите. В отдельной миске взбейте 3 яичных желтка и тонкой струйкой влейте их в масло, взбейте и добавьте 1 ст. л. лимонного сока."),
             Step(recipe_id=recipes[0].id, picture="", sentence="Сформируйте блюдо: на хлебные тосты выложите бекон с луком, сверху яйцо и полейте голландским соусом."),
-            Step(recipe_id=recipes[1].id, picture="/recepie-selector/backend/images/kartoshka_po_derevencky_v_duhovke_1.webp", sentence="Картофель тщательно вымойте с жёсткой щеткой, не очищайте от кожуры."),
-            Step(recipe_id=recipes[1].id, picture="/recepie-selector/backend/images/kartoshka_po_derevencky_v_duhovke_2.webp", sentence="Нарежьте длинными дольками вдоль."),
-            Step(recipe_id=recipes[1].id, picture="/recepie-selector/backend/images/kartoshka_po_derevencky_v_duhovke_3.webp", sentence="Сложите дольки в большой контейнер или пакет, добавьте оливковое масло и приправу. Закройте контейнер или пакет и тщательно встряхните, чтобы равномерно распределить специи по картошке."),
-            Step(recipe_id=recipes[1].id, picture="/recepie-selector/backend/images/kartoshka_po_derevencky_v_duhovke_4.webp", sentence="Выложите картофель на противень в один слой и запекайте в духовке при 180 °C 30-40 минут до готовности."),
-            Step(recipe_id=recipes[1].id, picture="/recepie-selector/backend/images/kartoshka_po_derevencky_v_duhovke_5.webp", sentence="Картофель по-деревенски готов."),
+            Step(recipe_id=recipes[1].id, picture="kartoshka_po_derevencky_v_duhovke_1.webp", sentence="Картофель тщательно вымойте с жёсткой щеткой, не очищайте от кожуры."),
+            Step(recipe_id=recipes[1].id, picture="kartoshka_po_derevencky_v_duhovke_2.webp", sentence="Нарежьте длинными дольками вдоль."),
+            Step(recipe_id=recipes[1].id, picture="kartoshka_po_derevencky_v_duhovke_3.webp", sentence="Сложите дольки в большой контейнер или пакет, добавьте оливковое масло и приправу. Закройте контейнер или пакет и тщательно встряхните, чтобы равномерно распределить специи по картошке."),
+            Step(recipe_id=recipes[1].id, picture="kartoshka_po_derevencky_v_duhovke_4.webp", sentence="Выложите картофель на противень в один слой и запекайте в духовке при 180 °C 30-40 минут до готовности."),
+            Step(recipe_id=recipes[1].id, picture="kartoshka_po_derevencky_v_duhovke_5.webp", sentence="Картофель по-деревенски готов."),
         ]
         for step in steps:
             self.session.add(step)

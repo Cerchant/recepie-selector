@@ -2,6 +2,7 @@ import styles from "./Step.module.css";
 import Images from "./Images/Images";
 
 const Step = (props) => {
+  console.log(props);
   return (
     <div className={styles["step"]}>
       <h3>Шаг {props.stepNumber}</h3>

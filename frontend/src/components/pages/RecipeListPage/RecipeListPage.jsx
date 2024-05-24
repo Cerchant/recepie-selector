@@ -31,7 +31,7 @@ const RecipeListPage = (props) => {
         instruction: model.step.map((steps) => {
           return {
             text: steps.sentence,
-            images: steps.picture ? [] : [`http://127.0.0.1:8000/${steps.picture}`],
+            images: steps.picture ? [`http://127.0.0.1:8000/images/${steps.picture}`] : [],
           }
         })
         // instruction: [
