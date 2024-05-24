@@ -85,7 +85,11 @@ class BusinessService:
         return final
 
     
-    # starts recipe, adds it to history
+    def addRecipeToHistory(self, queryBeginRecipeDTO, user):
+        self.session.add(UserRecipeHistory(user_id=user.id, recipe_id=queryBeginRecipeDTO.recipe_id))
+        self.session.commit()
+        return 200
+
     def getRecipe(self, queryBeginRecipeDTO, user):
         result = self.session.execute(text(f"""
                 SELECT r1.id as rid, r1.name as rname, r1.text as rtext FROM recipe r1
@@ -97,8 +101,6 @@ class BusinessService:
             crudeKbju = self.session.query(KBJU).filter(KBJU.recipe_id == final[0].get("rid")).first()
             final[0]["kbju"] = KbjuDTO(k=crudeKbju.k, b=crudeKbju.b, j=crudeKbju.j, u=crudeKbju.u)
             final[0]["step"] = self.session.query(Step).filter(Step.recipe_id == final[0].get("rid")).all()
-            self.session.add(UserRecipeHistory(user_id=user.id, recipe_id=queryBeginRecipeDTO.recipe_id))
-            self.session.commit()
         except IndexError:
             pass
         return JSONResponse(content=jsonable_encoder(final))
