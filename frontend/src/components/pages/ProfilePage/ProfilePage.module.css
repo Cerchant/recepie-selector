@@ -2,6 +2,10 @@
   margin: 40px auto;
 }
 
+.profile__date {
+  margin-top: 70px;
+}
+
 .profile__table {
-  margin-top: 90px;
+  margin-top: 20px;
 }
