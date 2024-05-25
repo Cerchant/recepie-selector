@@ -55,6 +55,7 @@ const ProfilePage = (props) => {
       }));
       setRecipes(matchedData);
     } catch (ex) {
+      alert("Что-то пошло не так");
       const { response } = ex;
       console.log(response);
       setRecipes([]);
