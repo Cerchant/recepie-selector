@@ -48,42 +48,33 @@ const ProfilePage = (props) => {
       let recipesData;
       try {
         recipesData = (
-          await axios.get("НУЖЕН АДЕКВАТНЫЙ ЗАПРОС", {
-            headers: { Authorization: `Bearer ${token}` },
-          })
+          await axios.post(
+            "http://127.0.0.1:8000/business/history", 
+            {
+              start_date_time: (new Date(new Date().setDate(new Date().getDate() - 7))).toISOString(), // 7 days ago
+              end_date_time: (new Date()).toISOString(),
+            },
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          )
         ).data;
-        //setRecipes(recipesData); ////////////////////////////////////////// ТУТ НАДО ИЗМЕНИТЬ ДАННЫЕ На ПРИХОДЯЩие
-        setRecipes([
-          {
-            id: 1,
-            name: "Яйца Бенедикт",
-            k: 123,
-            b: 321,
-            j: 142,
-            u: 23,
-          },
-          {
-            id: 2,
-            name: "Картошка по-деревенски в духовке",
-            k: 123,
-            b: 321,
-            j: 142,
-            u: 23,
-          },
-          {
-            id: 3,
-            name: "Сырники",
-            k: 123,
-            b: 321,
-            j: 142,
-            u: 23,
-          },
-        ]);
       } catch (ex) {
+        alert("something went wrong");
         const { response } = ex;
         console.log(response);
         setRecipes([]);
       }
+      setRecipes(recipesData.map((recipe) => (
+        {
+          id: recipe.rid,
+          name: recipe.rname,
+          k: recipe.kbju.k,
+          b: recipe.kbju.b,
+          j: recipe.kbju.j,
+          u: recipe.kbju.u,
+        }
+      )));
     };
     fetchUser();
     fetchRecipes();

@@ -112,17 +112,17 @@ const ProfileForm = (props) => {
 
   const ageInputChangeHandler = (e) => {
     setAgeInput(e.target.value);
-    setAgeIsValid(+e.target.value >= 3);
+    setAgeIsValid(e.target.value >= 3 && e.target.value <= 130);
   };
 
   const heightInputChangeHandler = (e) => {
     setHeightInput(e.target.value);
-    setHeightIsValid(+e.target.value >= 60);
+    setHeightIsValid(e.target.value >= 60 && e.target.value <= 270);
   };
 
   const weightInputChangeHandler = (e) => {
     setWeightInput(e.target.value);
-    setWeightIsValid(+e.target.value >= 10);
+    setWeightIsValid(e.target.value >= 8 && e.target.value <= 700);
   };
 
   const newPasswordInputChangeHandler = (e) => {
@@ -143,7 +143,15 @@ const ProfileForm = (props) => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    if (!(ageIsValid && weightIsValid && heightIsValid && emailIsValid)) {
+      alert('Необходимо исправить ошибки в форме');
+      return;
+    }
     if (isEdit) {
+      if (!(passwordIsValid && newPasswordIsValid && confirmPasswordIsValid)) {
+        alert('Необходимо исправить ошибки в форме смены пароля');
+        return;
+      }
       try {
         const { data } = await axios.put(
           "http://127.0.0.1:8000/auth/change-password",
@@ -180,6 +188,7 @@ const ProfileForm = (props) => {
       },
       { headers: { Authorization: `Bearer ${token}` } }
     );
+    alert('Данные обновленны');
   };
 
   const logoutHandler = (e) => {
