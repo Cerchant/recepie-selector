@@ -10,12 +10,57 @@ import ProfileForm from "./ProfileForm/ProfileForm";
 import styles from "./ProfilePage.module.css";
 import axios from "axios";
 import ProfileTable from "./ProfileTable/ProfileTable";
+import dayjs from "dayjs";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 const ProfilePage = (props) => {
   const history = useHistory();
   const token = localStorage.getItem("token");
   const [user, setUser] = useState();
   const [recipes, setRecipes] = useState([]);
+  const [startDate, setStartDate] = useState(
+    dayjs().hour(0).minute(0).second(0)
+  );
+  const [endDate, setEndDate] = useState(
+    dayjs().hour(23).minute(59).second(59)
+  );
+
+  const fetchRecipes = async () => {
+    let recipesData;
+    try {
+      recipesData = (
+        await axios.post(
+          "http://127.0.0.1:8000/business/history",
+          {
+            start_date_time: startDate.toISOString(),
+            end_date_time: endDate.toISOString(),
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
+      ).data;
+
+      console.log(recipesData);
+      const matchedData = recipesData.map((data) => ({
+        id: data.rid,
+        name: data.rname,
+        k: data.kbju.k,
+        b: data.kbju.b,
+        j: data.kbju.j,
+        u: data.kbju.u,
+      }));
+      setRecipes(matchedData);
+    } catch (ex) {
+      alert("Что-то пошло не так");
+      const { response } = ex;
+      console.log(response);
+      setRecipes([]);
+    }
+  };
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -44,41 +89,13 @@ const ProfilePage = (props) => {
       ).data;
       setUser({ ...additionData, ...userData });
     };
-    const fetchRecipes = async () => {
-      let recipesData;
-      try {
-        recipesData = (
-          await axios.post(
-            "http://127.0.0.1:8000/business/history", 
-            {
-              start_date_time: (new Date(new Date().setDate(new Date().getDate() - 7))).toISOString(), // 7 days ago
-              end_date_time: (new Date()).toISOString(),
-            },
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          )
-        ).data;
-      } catch (ex) {
-        alert("something went wrong");
-        const { response } = ex;
-        console.log(response);
-        setRecipes([]);
-      }
-      setRecipes(recipesData.map((recipe) => (
-        {
-          id: recipe.rid,
-          name: recipe.rname,
-          k: recipe.kbju.k,
-          b: recipe.kbju.b,
-          j: recipe.kbju.j,
-          u: recipe.kbju.u,
-        }
-      )));
-    };
+
     fetchUser();
-    fetchRecipes();
   }, []);
+
+  useEffect(() => {
+    fetchRecipes();
+  }, [startDate, endDate]);
 
   if (user === undefined) {
     return (
@@ -104,6 +121,25 @@ const ProfilePage = (props) => {
           <Content>
             <div className={styles.profile__form}>
               <ProfileForm user={user} />
+            </div>
+            <div className={styles.profile__date}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  label="Начало"
+                  value={startDate}
+                  onChange={(newValue) =>
+                    setStartDate(newValue.hour(0).minute(0).second(0))
+                  }
+                />
+                <DatePicker
+                  sx={{ marginLeft: 2 }}
+                  label="Конец"
+                  value={endDate}
+                  onChange={(newValue) =>
+                    setEndDate(newValue.hour(23).minute(59).second(59))
+                  }
+                />
+              </LocalizationProvider>
             </div>
             <div className={styles.profile__table}>
               <ProfileTable rows={recipes} />
