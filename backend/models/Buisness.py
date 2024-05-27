@@ -51,7 +51,8 @@ class Recipe(Base):
     )
     step: Mapped[Optional[List["Step"]]] = relationship(back_populates = "recipe_for_step", cascade = "all, delete-orphan")
     kbju: Mapped[Optional["KBJU"]] = relationship(back_populates="recipe_for_kbju")
-
+    weight: Mapped[int]
+    picture: Mapped[Optional[str]]
 
 class IntolerableProduct(Base):
     __tablename__ = "intolerable_product"
