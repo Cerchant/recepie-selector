@@ -13,6 +13,8 @@ from models.authDTO import UserDTO
 from models.Buisness import AdditionalUserData, IntolerableProduct, Recipe, Step, product_recipe
 from models.Buisness import Product
 
+from fastapi.responses import FileResponse
+
 
 class BusinessService:
 
@@ -80,7 +82,8 @@ class BusinessService:
             final[itr]["rid"] = recipe.id
             final[itr]["rname"] = recipe.name
             final[itr]["kbju"] = self.session.query(KBJU).filter(KBJU.recipe_id == final[itr].get("rid")).first()
-            # final[itr]["step"] = self.session.query(Step).filter(Step.recipe_id == final[itr].get("rid")).all()
+            final[itr]["picture"] = row.get("picture")
+            final[itr]["weight"] = row.get("weight")
             itr-=-1
         return final
 
@@ -92,7 +95,7 @@ class BusinessService:
 
     def getRecipe(self, queryBeginRecipeDTO, user):
         result = self.session.execute(text(f"""
-                SELECT r1.id as rid, r1.name as rname, r1.text as rtext FROM recipe r1
+                SELECT r1.id as rid, r1.name as rname, r1.text as rtext, r1.picture as rpicture, r1.weight as rweight FROM recipe r1
                 WHERE rid IN ({queryBeginRecipeDTO.recipe_id})"""))
         final = []
         for row in result:
@@ -110,14 +113,14 @@ class BusinessService:
         param = "\"" + "\", \"".join(names) + "\""
         if len(queryForRecipeDTO.ProductsList) != 0:
             toGetRecipes = f"""
-                SELECT DISTINCT r1.id as rid, r1.name as rname, r1.text as rtext FROM recipe r1
+                SELECT DISTINCT r1.id as rid, r1.name as rname, r1.text as rtext, r1.picture as rpicture, r1.weight as rweight FROM recipe r1
                 join product_recipe pr1 on 	pr1.recipe = r1.id
                 join product p1 on 	p1.id = pr1.product
                 WHERE p1.name IN ({param})
             """
         else:
             toGetRecipes = """
-               SELECT DISTINCT r1.id as rid, r1.name as rname, r1.text as rtext FROM recipe r1
+               SELECT DISTINCT r1.id as rid, r1.name as rname, r1.text as rtext, r1.picture as rpicture, r1.weight as rweight FROM recipe r1
                 join product_recipe pr1 on 	pr1.recipe = r1.id
                 join product p1 on 	p1.id = pr1.product
             """
@@ -157,6 +160,8 @@ class BusinessService:
                         crudeKbju = self.session.query(KBJU).filter(KBJU.recipe_id == final[itr].get("rid")).first()
                         final[itr]["kbju"] = KbjuDTO(k=crudeKbju.k, b=crudeKbju.b, j=crudeKbju.j, u=crudeKbju.u)
                         final[itr]["step"] = self.session.query(Step).filter(Step.recipe_id == final[itr].get("rid")).all()
+                        final[itr]["picture"] = row.get("picture")
+                        final[itr]["weight"] = row.get("weight")
                 except IndexError:
                     pass
             itr -= -1
@@ -189,9 +194,13 @@ class BusinessService:
 
         recipes = [
             Recipe(name="Яйца Бенедикт",
-                   text="Яйца Бенедикт — это прекрасный завтрак, представляющий собой бутерброд из поджаренного тоста или булочки с яйцами-пашот, беконом или ветчиной и голландским соусом. Существует несколько версий возникновения этого блюда, согласно которым впервые блюдо появилось в Нью-Йорке (разные версии говорят о разных людях, разных именах и разных ситуациях возникновения яиц Бенедикт, однако все они утверждают, что появилось оно именно в Нью-Йорке). Несмотря на это, блюдо часто относят к французской кухне из-за того, что яйца Бенедикт стали готовить в лучших ресторанах Парижа."),
+                   text="Яйца Бенедикт — это прекрасный завтрак, представляющий собой бутерброд из поджаренного тоста или булочки с яйцами-пашот, беконом или ветчиной и голландским соусом. Существует несколько версий возникновения этого блюда, согласно которым впервые блюдо появилось в Нью-Йорке (разные версии говорят о разных людях, разных именах и разных ситуациях возникновения яиц Бенедикт, однако все они утверждают, что появилось оно именно в Нью-Йорке). Несмотря на это, блюдо часто относят к французской кухне из-за того, что яйца Бенедикт стали готовить в лучших ресторанах Парижа.",
+                   weight=200,
+                   picture="Eggs_Benedict_main.webp"),
             Recipe(name="Картошка по-деревенски в духовке",
-                   text="Картошка по-деревенски будет прекрасным гарниром к мясу, рыбе и различным бургерам. Кроме того, картофель, запеченный в духовке, намного полезнее жареного картофеля и, тем более, картофеля фри.")
+                   text="Картошка по-деревенски будет прекрасным гарниром к мясу, рыбе и различным бургерам. Кроме того, картофель, запеченный в духовке, намного полезнее жареного картофеля и, тем более, картофеля фри.",
+                   weight=200,
+                   picture="kartoshka_po_derevencky_v_duhovke_main.webp")
         ]
         for r in recipes:
             self.session.add(r)
