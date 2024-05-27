@@ -1,4 +1,3 @@
-
 import styles from "./AuthenticationForm.module.css";
 import Button from "../../../UI/Buttons/Button/Button";
 
@@ -40,16 +39,14 @@ const AuthenticationForm = (props) => {
   const submitHandler = async (e) => {
     e.preventDefault();
     const bodyFormData = new FormData();
-    bodyFormData.append('username', emailInput);
-    bodyFormData.append('password', passwordInput);
+    bodyFormData.append("username", emailInput);
+    bodyFormData.append("password", passwordInput);
     try {
       const { data } = await axios.post(
         "http://127.0.0.1:8000/auth/sing-in",
         bodyFormData
       );
-      localStorage.setItem(
-        "token", data.access_token
-      );
+      localStorage.setItem("token", data.access_token);
       setPasswordIsValid(true);
       history.push("/recipe");
     } catch (ex) {
@@ -64,6 +61,8 @@ const AuthenticationForm = (props) => {
   };
 
   const muiStyles = {
+    margin: "0 auto",
+    maxWidth: "345px",
     "& .MuiOutlinedInput-root": {
       borderRadius: "10px",
       "&.Mui-focused": {
@@ -113,7 +112,6 @@ const AuthenticationForm = (props) => {
       <Button className={styles.form__submit} color="#F2AA55" type="submit">
         Войти
       </Button>
-      
     </form>
   );
 };

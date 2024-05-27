@@ -13,7 +13,8 @@
 .form__fields {
   position: relative;
   padding-top: 5px;
-  max-width: 400px;
+  width: 100%;
+  max-width: 345px;
   margin-bottom: 25px;
 }
 
@@ -24,12 +25,15 @@
 }
 
 .form__field--w100 {
-  margin-right: 10px !important;
-  max-width: 100px;
+  max-width: 80px;
 }
 
 .form__field--w100:last-child {
   margin-right: 0 !important;
+}
+
+.form__field--w100:first-child {
+  margin-left: 0 !important;
 }
 
 .form__field--w100 input {
@@ -43,6 +47,7 @@
 }
 
 .form__submit {
-  max-width: 400px;
-  margin-bottom: 24pt;
+  margin-top: 15px;
+  max-width: 345px;
+  margin-bottom: 55pt;
 }

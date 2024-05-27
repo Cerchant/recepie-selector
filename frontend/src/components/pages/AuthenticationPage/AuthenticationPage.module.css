@@ -1,59 +1,64 @@
 .authentication-page {
-    display: flex;
-    flex-direction: column;
-    padding-top: 70px;
-    padding-bottom: 70px;
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    
-    background-color: #f1ece0;
+  display: flex;
+  flex-direction: column;
+  padding-top: 70px;
+  padding-bottom: 70px;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+
+  background-color: #f1ece0;
 }
 
 .authentication-page__logo {
-    width: 60px;
-    height: 60px;
-    align-self: center;
+  width: 60px;
+  height: 60px;
+  align-self: center;
 }
 
 .authentication-page__content {
-    display: flex;
-    flex-direction: column;
-    background-color: #ffffff;
-    width: 60%;
-    min-width: 400pt;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 452px;
+  border-radius: 10px;
 }
 
 .authentication-page__tabs {
-    display: flex;
-    width: 100%;
-    height: 50pt;
+  display: flex;
+  width: 100%;
+  height: 50pt;
 }
 
 .authentication-page__tab-button {
-    color: #4E5263;
-    width: 50%;
-    height: 100%;
-    border: none;
-    font-size: 24px;
-    background-color: #f1ece0;
+  color: #4e5263;
+  width: 50%;
+  height: 100%;
+  border: none;
+  font-size: 24px;
+  background-color: #f1ece0;
 }
 
-
 .authentication-page__tab-button__active {
-    color: #4E5263;
-    width: 50%;
-    height: 100%;
-    border: none;
-    font-size: 24px;
-    background-color: #FFFFFF;
+  color: #4e5263;
+  width: 50%;
+  height: 100%;
+  border: none;
+  font-size: 24px;
+  background-color: #ffffff;
+
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 .authentication-page__agreement-text {
-    color: #9D9D9D;
-    font-size: 14px;
-    align-self: center;
-    width: 90%;
-    margin-bottom: 24pt;
-    text-align: center;
+  color: #9d9d9d;
+  font-size: 14px;
+  align-self: center;
+  width: 100%;
+  max-width: 345px;
+  margin-bottom: 24pt;
+  text-align: center;
 }

@@ -1,4 +1,3 @@
-
 import styles from "./ExtendedRegistrationForm.module.css";
 import Button from "../../../UI/Buttons/Button/Button";
 
@@ -39,7 +38,9 @@ const ExtendedRegistrationForm = (props) => {
           "http://127.0.0.1:8000/business/products",
           { intolerable: false },
           {
-            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
           }
         )
       ).data.productList;
@@ -52,7 +53,7 @@ const ExtendedRegistrationForm = (props) => {
   const submitHandler = async (e) => {
     e.preventDefault();
     if (!(ageIsValid && weightIsValid && heightIsValid)) {
-      alert('Необходимо исправить ошибки в форме');
+      alert("Необходимо исправить ошибки в форме");
       return;
     }
     try {
@@ -90,6 +91,8 @@ const ExtendedRegistrationForm = (props) => {
   };
 
   const muiStyles = {
+    maxWidth: "345px",
+    margin: "0 auto",
     "& .MuiOutlinedInput-root": {
       borderRadius: "10px",
       "&.Mui-focused": {
@@ -124,8 +127,6 @@ const ExtendedRegistrationForm = (props) => {
     setWeightIsValid(e.target.value >= 8 && e.target.value <= 700);
   };
 
-
-
   return (
     <form className={styles.form} onSubmit={submitHandler}>
       <div className={styles.form__wrapper}>
@@ -133,7 +134,7 @@ const ExtendedRegistrationForm = (props) => {
           <div className={styles.form__group}>
             <TextField
               className={styles["form__field--w100"]}
-              sx={muiStyles}
+              sx={{ ...muiStyles, maxWidth: "80px" }}
               error={!ageIsValid}
               label="Возраст"
               defaultValue={ageInput}
@@ -144,7 +145,7 @@ const ExtendedRegistrationForm = (props) => {
             />
             <TextField
               className={styles["form__field--w100"]}
-              sx={muiStyles}
+              sx={{ ...muiStyles, maxWidth: "80px" }}
               error={!heightIsValid}
               label="Рост"
               defaultValue={heightInput}
@@ -155,7 +156,7 @@ const ExtendedRegistrationForm = (props) => {
             />
             <TextField
               className={styles["form__field--w100"]}
-              sx={muiStyles}
+              sx={{ ...muiStyles, maxWidth: "80px" }}
               error={!weightIsValid}
               label="Вес"
               defaultValue={weightInput}
