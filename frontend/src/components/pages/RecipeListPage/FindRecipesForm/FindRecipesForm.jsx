@@ -79,7 +79,8 @@ const FindRecipesForm = (props) => {
     const fetchedRecipes = (
       await axios.post("http://127.0.0.1:8000/business/recipes", body, config)
     ).data;
-
+    console.log('response:');
+    console.log(fetchedRecipes);
     props.handleRecipes(fetchedRecipes);
   };
 
