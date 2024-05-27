@@ -82,8 +82,8 @@ class BusinessService:
             final[itr]["rid"] = recipe.id
             final[itr]["rname"] = recipe.name
             final[itr]["kbju"] = self.session.query(KBJU).filter(KBJU.recipe_id == final[itr].get("rid")).first()
-            final[itr]["picture"] = row.get("picture")
-            final[itr]["weight"] = row.get("weight")
+            # final[itr]["picture"] = row.get("picture")
+            # final[itr]["weight"] = row.get("weight")
             itr-=-1
         return final
 
@@ -156,12 +156,12 @@ class BusinessService:
                             pass
                     fin.append(p._asdict().get("pname"))
                 try:
-                    if len(final[-1]) < 5:
-                        crudeKbju = self.session.query(KBJU).filter(KBJU.recipe_id == final[itr].get("rid")).first()
-                        final[itr]["kbju"] = KbjuDTO(k=crudeKbju.k, b=crudeKbju.b, j=crudeKbju.j, u=crudeKbju.u)
-                        final[itr]["step"] = self.session.query(Step).filter(Step.recipe_id == final[itr].get("rid")).all()
-                        final[itr]["picture"] = row.get("picture")
-                        final[itr]["weight"] = row.get("weight")
+                    # if len(final[-1]) < 5:
+                    crudeKbju = self.session.query(KBJU).filter(KBJU.recipe_id == final[itr].get("rid")).first()
+                    final[itr]["kbju"] = KbjuDTO(k=crudeKbju.k, b=crudeKbju.b, j=crudeKbju.j, u=crudeKbju.u)
+                    final[itr]["step"] = self.session.query(Step).filter(Step.recipe_id == final[itr].get("rid")).all()
+                        # final[itr]["picture"] = row.get("picture")
+                        # final[itr]["weight"] = row.get("weight")
                 except IndexError:
                     pass
             itr -= -1
@@ -200,7 +200,7 @@ class BusinessService:
             Recipe(name="Картошка по-деревенски в духовке",
                    text="Картошка по-деревенски будет прекрасным гарниром к мясу, рыбе и различным бургерам. Кроме того, картофель, запеченный в духовке, намного полезнее жареного картофеля и, тем более, картофеля фри.",
                    weight=200,
-                   picture="kartoshka_po_derevencky_v_duhovke_main.webp")
+                   picture="kartoshka_po_derevensky_v_duhovke_main.webp")
         ]
         for r in recipes:
             self.session.add(r)
