@@ -18,10 +18,9 @@ const RecipeListPage = (props) => {
         id: model.rid,
         recipeName: model.rname,
         description: model.rtext,
-        imageLink:
-          "https://proprikol.ru/wp-content/uploads/2021/01/kartinki-syrniki-3.jpg",
+        imageLink: `http://127.0.0.1:8000/images/${model.rpicture}`,
         ingridients: model.productList,
-        portionMass: 50,
+        portionMass: model.rweight,
         kbju: {
           k: model.kbju.k,
           b: model.kbju.b,
