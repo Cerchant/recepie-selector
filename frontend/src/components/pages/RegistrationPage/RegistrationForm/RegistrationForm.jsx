@@ -1,4 +1,3 @@
-
 import styles from "./RegistrationForm.module.css";
 import Button from "../../../UI/Buttons/Button/Button";
 
@@ -50,24 +49,22 @@ const RegistrationForm = (props) => {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post(
-        "http://127.0.0.1:8000/auth/sing-up",
-        {
-          email: emailInput,
-          username: emailInput,
-          password: passwordInput,
-          repeatPassword: confirmPasswordInput
-        },
-      );
-      localStorage.setItem(
-        "token", data.access_token
-      );
+      const { data } = await axios.post("http://127.0.0.1:8000/auth/sing-up", {
+        email: emailInput,
+        username: emailInput,
+        password: passwordInput,
+        repeatPassword: confirmPasswordInput,
+      });
+      localStorage.setItem("token", data.access_token);
       setPasswordIsValid(true);
       history.push("/registration/finish");
     } catch (ex) {
       const { response } = ex;
       console.log(response);
-      if (response?.data.detail === "A user with this name already exists. Use a different name.") {
+      if (
+        response?.data.detail ===
+        "A user with this name already exists. Use a different name."
+      ) {
         setEmailIsValid(false);
       } else {
         alert("Что-то пошло не так");
@@ -76,6 +73,8 @@ const RegistrationForm = (props) => {
   };
 
   const muiStyles = {
+    margin: "0 auto",
+    maxWidth: "345px",
     "& .MuiOutlinedInput-root": {
       borderRadius: "10px",
       "&.Mui-focused": {
@@ -139,7 +138,6 @@ const RegistrationForm = (props) => {
       <Button className={styles.form__submit} color="#F2AA55" type="submit">
         Зарегистрироваться
       </Button>
-      
     </form>
   );
 };
